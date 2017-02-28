@@ -1,0 +1,16 @@
+[
+{
+  "modid": "meta",
+  "name": "M.E.T.A.",
+  "description": "Extract energy from Minecraft mod ideas.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["EliteMasterEric"],
+  "credits": "Thanks to the Minecraft Mod Development Discord for the help, tips, and advice!",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

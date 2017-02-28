@@ -1,0 +1,49 @@
+package com.mastereric.meta.common.items;
+
+import com.mastereric.meta.util.LangUtility;
+import com.mastereric.meta.util.LogUtility;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
+import java.util.Random;
+
+public class ItemMod extends Item {
+	private static final int DESCRIPTION_COUNT = 17;
+
+	public ItemMod() {
+		this.setMaxDamage(0);
+		this.setHasSubtypes(false);
+		this.setMaxStackSize(1);
+	}
+
+    public static void createInfo(ItemStack stack) {
+	    if (!(stack.getItem() instanceof ItemMod))
+	        return;
+        LogUtility.debug("Creating mod item...");
+        NBTTagCompound nbtTagCompound = stack.getTagCompound();
+        if (nbtTagCompound == null || !nbtTagCompound.hasKey("Random")) {
+            nbtTagCompound = new NBTTagCompound();
+            nbtTagCompound.setInteger("Random", new Random().nextInt(DESCRIPTION_COUNT));
+            stack.setTagCompound(nbtTagCompound);
+        }
+    }
+
+    //TODO Add A,E,I,O,U textures, and switch based on getInteger("Random") % 5.
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+        NBTTagCompound nbtTagCompound = stack.getTagCompound();
+		if (nbtTagCompound != null && nbtTagCompound.hasKey("Random")) {
+            tooltip.add(LangUtility.getTranslation(this.getUnlocalizedName() + ".desc.rand." + nbtTagCompound.getInteger("Random")));
+        }
+	}
+}

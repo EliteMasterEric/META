@@ -1,0 +1,9 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "meta:blocks/meta_top",
+        "bottom": "meta:blocks/meta_bottom",
+        "front": "meta:blocks/meta_front_active",
+        "side": "meta:blocks/meta_side"
+    }
+}

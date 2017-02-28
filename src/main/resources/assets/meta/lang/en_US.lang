@@ -1,0 +1,40 @@
+#PARSE_ESCAPES
+itemGroup.meta=M.E.T.A.
+
+container.meta.mod_maker=Mod Maker
+container.meta.meta=M.E.T.A.
+
+item.meta.mod.name=§6Mod
+item.meta.mod_dumb.name=§6Mod
+tile.meta.mod_maker.name=§6Mod Maker
+tile.meta.meta_inactive.name=§6M.E.T.A.
+tile.meta.meta_active.name=§4Active M.E.T.A
+
+gui.meta.mod_maker_progress=%%d%%%% complete
+gui.meta.mod_maker_complete=Completed!
+gui.meta.mod_maker_zero_mult=This Mod Maker needs inspiration!
+
+gui.meta.meta_storage=%%d/%%d FE
+
+tile.meta.mod_maker.desc=Creates mods from nearby sources of inspiration.
+tile.meta.meta_inactive.desc=Modification Energy Terra-Amalgamator\nGenerates FE from mods.
+tile.meta.meta_active.desc=Report this to the mod author!
+
+item.meta.mod_dumb.desc=A mod that prevents the Mod Maker and M.E.T.A. from working together!
+item.meta.mod.desc.rand.0=A mod that adds dinosaurs!
+item.meta.mod.desc.rand.1=A mod that adds magic wands!
+item.meta.mod.desc.rand.2=A mod that adds a ring that lets you fly!
+item.meta.mod.desc.rand.3=Remember that game Myst? A mod based on that!
+item.meta.mod.desc.rand.4=A mod that adds §cM§bE§eM§dE§aS§r!
+item.meta.mod.desc.rand.5=A mod that adds an ore grinder to double ores!
+item.meta.mod.desc.rand.6=A mod that adds §kHerobrine§r!
+item.meta.mod.desc.rand.7=A mod that adds SCP-173 as an enemy!
+item.meta.mod.desc.rand.8=A mod that adds Team Fortress 2 items!
+item.meta.mod.desc.rand.9=A mod that adds new ores!
+item.meta.mod.desc.rand.10=A mod that adds a new dimension!
+item.meta.mod.desc.rand.11=A mod that adds a mod idea generator!
+item.meta.mod.desc.rand.12=A mod that adds farts!
+item.meta.mod.desc.rand.13=A mod that adds more animals!
+item.meta.mod.desc.rand.14=A mod that adds ADVANCED hunger and thirst mechanics!
+item.meta.mod.desc.rand.15=A mod that lets you craft one dirt into 64 diamonds!
+item.meta.mod.desc.rand.15=A mod that adds guns!
