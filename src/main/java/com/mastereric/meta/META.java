@@ -29,6 +29,7 @@ public class META {
 		FMLLog.getLogger().info("Initializing mod " + Reference.MOD_ID);
 
 		//TODO add achievements
+		//TODO add CommonCapabilites support
 
 		proxy.preInit(event);
     }

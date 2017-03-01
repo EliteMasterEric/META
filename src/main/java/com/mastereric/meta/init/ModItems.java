@@ -19,7 +19,6 @@ public final class ModItems {
 
     public static void initializeItems() {
 		LogUtility.info("Initializing items.");
-		//TODO add config.
 		itemMod = new ItemMod();
 		registerItem(itemMod, Reference.NAME_ITEM_MOD);
 		itemModDumb = new ItemModDumb();

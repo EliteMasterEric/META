@@ -41,8 +41,6 @@ public class TileMETA extends TileEntity implements ITickable {
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY)
-            LogUtility.info("HAS ENERGY CAPABILITY?");
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY
                 || capability == CapabilityEnergy.ENERGY
                 || super.hasCapability(capability, facing);
@@ -53,10 +51,8 @@ public class TileMETA extends TileEntity implements ITickable {
 
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
             return  CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(inventoryItemHandler);
-        if (capability == CapabilityEnergy.ENERGY) {
-            LogUtility.info("GET ENERGY CAPABILITY");
+        if (capability == CapabilityEnergy.ENERGY)
             return  CapabilityEnergy.ENERGY.cast(energyStorageHandler);
-        }
 
         return super.getCapability(capability, facing);
     }
@@ -150,14 +146,16 @@ public class TileMETA extends TileEntity implements ITickable {
     }
 
     public void update() {
-        tryConsumeMod();
+        if(!world.isRemote) {
+            tryConsumeMod();
 
-        if (getTicksRemaining() > 0) {
-            if(energyStorageHandler.getEnergyStored() < MAX_ENERGY_STORED) {
-                currentRemainingTicks--;
-                energyStorageHandler.setEnergyStored(energyStorageHandler.getEnergyStored() + FE_PER_TICK);
-            } else {
-                // On hold.
+            if (getTicksRemaining() > 0) {
+                if(energyStorageHandler.getEnergyStored() < MAX_ENERGY_STORED) {
+                    currentRemainingTicks--;
+                    energyStorageHandler.setEnergyStored(Math.min(energyStorageHandler.getEnergyStored() + FE_PER_TICK, MAX_ENERGY_STORED));
+                } else {
+                    // On hold.
+                }
             }
         }
     }
@@ -190,6 +188,7 @@ public class TileMETA extends TileEntity implements ITickable {
 
     public int getEnergyStored() {
         // Tell others what my current energy storage is.
+        LogUtility.infoSided("Energy Stored: %d", energyStorageHandler.getEnergyStored());
         return energyStorageHandler.getEnergyStored();
     }
 

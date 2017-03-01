@@ -14,12 +14,34 @@ public class METAEnergyStorageHandler extends EnergyStorage {
     }
 
     @Override
+    public int receiveEnergy(int maxReceive, boolean simulate) {
+        if (!canReceive())
+            return 0;
+
+        int energyReceived = Math.min(capacity - energy, Math.min(this.maxReceive, maxReceive));
+        if (!simulate)
+            energy += energyReceived;
+        return energyReceived;
+    }
+
+    @Override
     public int extractEnergy(int maxExtract, boolean simulate) {
-        LogUtility.info("EXTRACT ENERGY?");
-        return super.extractEnergy(maxExtract, simulate);
+        if (!canExtract())
+            return 0;
+
+        int energyExtracted = Math.min(energy, Math.min(this.maxExtract, maxExtract));
+        if (!simulate)
+            energy -= energyExtracted;
+        return energyExtracted;
     }
 
     public void setEnergyStored(int energy) {
         this.energy = energy;
+    }
+
+    @Override
+    public int getEnergyStored() {
+        LogUtility.infoSided("ENERGY: %d"+energy);
+        return energy;
     }
 }

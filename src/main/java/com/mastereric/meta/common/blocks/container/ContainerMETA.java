@@ -87,12 +87,20 @@ public class ContainerMETA extends Container {
     public void updateProgressBar(int id, int data) {
         switch(id) {
             case FIELD_REMAINING_TICKS:
-                tileMETA.setRemainingTicks(data);
+                this.tileMETA.setRemainingTicks(data);
+                //this.currentModRemainingTicks = data;
                 break;
             case FIELD_ENERGY_STORAGE:
-                tileMETA.setCurrentEnergyStorage(data);
+                this.tileMETA.setCurrentEnergyStorage(data);
+                //this.currentEnergyStorage = data;
                 break;
         }
+    }
+
+    @Override
+    public void addListener(IContainerListener listener) {
+        super.addListener(listener);
+        //listener.sendAllWindowProperties(this, this.tileMETA);
     }
 
     /**
@@ -107,6 +115,7 @@ public class ContainerMETA extends Container {
                 listener.sendProgressBarUpdate(this, FIELD_REMAINING_TICKS, tileMETA.getTicksRemaining());
             }
             if (this.currentEnergyStorage != this.tileMETA.getEnergyStored()) {
+                LogUtility.infoSided("Updating energy...");
                 listener.sendProgressBarUpdate(this, FIELD_ENERGY_STORAGE, tileMETA.getEnergyStored());
             }
         }
@@ -132,6 +141,7 @@ public class ContainerMETA extends Container {
 
         if (PLAYER_FIRST_SLOT_INDEX <= sourceSlotIndex && sourceSlotIndex < PLAYER_FIRST_SLOT_INDEX + PLAYER_SLOT_COUNT) {
             // The source slot was in the player's inventory.
+            // TODO can't shift-click into inventory.
             if(sourceStack.getItem().equals(ModItems.itemMod)) {
                 if (!mergeItemStack(sourceStack, META_FIRST_SLOT_INDEX, META_FIRST_SLOT_INDEX + 0, false)) {
                     // No room in M.E.T.A., stop trying to move stuff.

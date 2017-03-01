@@ -75,6 +75,7 @@ public class ContainerModMaker extends Container {
     /**
      * Looks for changes made in the container, sends them to every listener.
      */
+    @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
 

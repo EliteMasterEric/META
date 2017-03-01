@@ -11,6 +11,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.world.World;
+import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,7 @@ public class GuiMETA extends GuiContainer {
     }
 
     private double getCurrentEnergy() {
+        //LogUtility.infoSided("Energy Stored: %d", inventoryMETA.getEnergyStored());
         return inventoryMETA.getEnergyStored();
     }
 
