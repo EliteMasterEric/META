@@ -2,6 +2,7 @@ package com.mastereric.meta.common.blocks.tile;
 
 import com.mastereric.meta.common.inventory.ModMakerItemStackHandler;
 import com.mastereric.meta.common.items.ItemMod;
+import com.mastereric.meta.init.ModConfig;
 import com.mastereric.meta.init.ModItems;
 import com.mastereric.meta.util.LangUtility;
 import com.mastereric.meta.util.LogUtility;
@@ -130,8 +131,11 @@ public class TileModMaker extends TileEntity implements ITickable {
     private void createMod() {
         if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
             LogUtility.infoSided("Creating mod in Mod Maker...");
-            //TODO if config option true, create itemModDumb instead.
-            ItemStack stack = new ItemStack(ModItems.itemMod, 1);
+            ItemStack stack;
+            if (ModConfig.MOD_190)
+                stack = new ItemStack(ModItems.itemModDumb, 1);
+            else
+                stack = new ItemStack(ModItems.itemMod, 1);
             ItemMod.createInfo(stack);
             inventoryItemHandler.setStackInSlot(0, stack);
             markDirty();
