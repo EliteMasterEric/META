@@ -23,8 +23,8 @@ public class GuiMETA extends GuiContainer {
     private static final int META_NAME_X = 8;
     private static final int META_NAME_Y = 6;
     private static final int INVENTORY_NAME_X = 8;
-    private static final int PROGRESS_X = 104;
-    private static final int PROGRESS_Y = 37;
+    private static final int PROGRESS_X = 72;
+    private static final int PROGRESS_Y = 63;
     private static final int PROGRESS_HEIGHT = 14;
     private static final int PROGRESS_WIDTH = 14;
     private static final int ENERGY_X = 151;
@@ -45,7 +45,10 @@ public class GuiMETA extends GuiContainer {
     }
 
     private int getTicksRemainingScaled(int progressIndicatorPixelHeight) {
-        return (int) Math.floor(getTicksRemaining() / (double) TileMETA.TICKS_PER_MOD * progressIndicatorPixelHeight);
+        double percent = (getTicksRemaining() / (double) TileMETA.TICKS_PER_MOD);
+        int value = (int) Math.floor(percent * progressIndicatorPixelHeight);
+        //LogUtility.info("Remaining: %f / %d = %f, %d", getTicksRemaining(), TileMETA.TICKS_PER_MOD, percent, value);
+        return value;
     }
 
     private double getCurrentEnergy() {
@@ -71,7 +74,6 @@ public class GuiMETA extends GuiContainer {
         int yPos = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(xPos, yPos, 0, 0, this.xSize, this.ySize);
 
-        LogUtility.info("Remaining: %f", this.getTicksRemaining());
         if(this.getTicksRemaining() != 0F) {
             // Draw fuel gauge
             int progress = this.getTicksRemainingScaled(PROGRESS_HEIGHT);

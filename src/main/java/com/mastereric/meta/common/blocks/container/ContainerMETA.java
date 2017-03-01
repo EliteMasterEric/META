@@ -12,6 +12,8 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
@@ -20,6 +22,10 @@ public class ContainerMETA extends Container {
     private int currentModRemainingTicks = 0;
     private int currentEnergyStorage = 0;
     private final World world;
+
+    private static final int FIELD_REMAINING_TICKS = 0;
+    private static final int FIELD_ENERGY_STORAGE = 1;
+
 
     // Numbers to keep track of the inventory.
     // No magic numbers here!
@@ -76,18 +82,32 @@ public class ContainerMETA extends Container {
                 0, META_SLOT_XPOS, META_SLOT_YPOS));
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void updateProgressBar(int id, int data) {
+        switch(id) {
+            case FIELD_REMAINING_TICKS:
+                tileMETA.setRemainingTicks(data);
+                break;
+            case FIELD_ENERGY_STORAGE:
+                tileMETA.setCurrentEnergyStorage(data);
+                break;
+        }
+    }
+
     /**
      * Looks for changes made in the container, sends them to every listener.
      */
+    @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
 
         for (IContainerListener listener : this.listeners) {
             if (this.currentModRemainingTicks != this.tileMETA.getTicksRemaining()) {
-                listener.sendProgressBarUpdate(this, 0, tileMETA.getTicksRemaining());
+                listener.sendProgressBarUpdate(this, FIELD_REMAINING_TICKS, tileMETA.getTicksRemaining());
             }
             if (this.currentEnergyStorage != this.tileMETA.getEnergyStored()) {
-                listener.sendProgressBarUpdate(this, 0, tileMETA.getEnergyStored());
+                listener.sendProgressBarUpdate(this, FIELD_ENERGY_STORAGE, tileMETA.getEnergyStored());
             }
         }
 

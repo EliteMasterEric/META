@@ -37,10 +37,9 @@ public class GuiModMaker extends GuiContainer {
     private double getProgress() {
         double ticksRemaining = inventoryModMaker.getTicksRemaining();
         if (ticksRemaining == 0)
-            return 1.0F;
+            return 100;
         if (ticksRemaining == TileModMaker.DEFAULT_WAIT_TIME)
-            return 0.0F;
-        //LogUtility.info("TicksRemaining: %f", ticksRemaining);
+            return 0;
         return (TileModMaker.DEFAULT_WAIT_TIME - ticksRemaining)/TileModMaker.DEFAULT_WAIT_TIME;
     }
 
@@ -64,8 +63,8 @@ public class GuiModMaker extends GuiContainer {
         this.drawTexturedModalRect(xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         LogUtility.info("PROGRESS: %f", this.getProgress());
-        if(this.getProgress() == 1.0F) {
-            this.drawTexturedModalRect(xPos + PROGRESS_X, yPos + PROGRESS_Y - 24, 176, 0, 16, PROGRESS_HEIGHT + 1);
+        if(this.getProgress() == 100) {
+            this.drawTexturedModalRect(xPos + PROGRESS_X, yPos + PROGRESS_Y, 176, 4, 16, PROGRESS_HEIGHT + 1);
         } else {
             int progress = this.getProgressScaled(PROGRESS_HEIGHT);
             this.drawTexturedModalRect(xPos + PROGRESS_X, yPos + PROGRESS_Y - progress, 176, PROGRESS_HEIGHT - progress, 16, progress);

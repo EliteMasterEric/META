@@ -52,6 +52,7 @@ public class BlockMETA extends BlockContainer {
     }
 
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+        // TODO fix placement facing.
         if (!worldIn.isRemote) {
             IBlockState iblockstate = worldIn.getBlockState(pos.north());
             IBlockState iblockstate1 = worldIn.getBlockState(pos.south());

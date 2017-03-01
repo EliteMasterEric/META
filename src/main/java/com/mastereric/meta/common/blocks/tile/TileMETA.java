@@ -1,5 +1,7 @@
 package com.mastereric.meta.common.blocks.tile;
 
+import com.mastereric.meta.common.inventory.METAEnergyStorageHandler;
+import com.mastereric.meta.common.inventory.METAItemStackHandler;
 import com.mastereric.meta.common.inventory.ModMakerItemStackHandler;
 import com.mastereric.meta.common.items.ItemMod;
 import com.mastereric.meta.init.ModItems;
@@ -15,37 +17,46 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import sun.rmi.runtime.Log;
 
-public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
+public class TileMETA extends TileEntity implements ITickable {
     public static final int MAX_ENERGY_STORED = 80000; // A little over half of one mod's worth of energy.
     public static final int FE_PER_MOD = 150000; // A little under 1 coal block of power.
     public static final int FE_PER_TICK = 60; // 50% higher than an Extra Utilities furnace generator.
     public static final int TICKS_PER_MOD = FE_PER_MOD / FE_PER_TICK; // 2500 ticks per mod.
 
-    private ModMakerItemStackHandler inventoryItemHandler = new ModMakerItemStackHandler(1);
-    private int currentModRemainingTicks;
-    private int currentEnergyStorage;
+    private METAItemStackHandler inventoryItemHandler = new METAItemStackHandler(1);
+    private METAEnergyStorageHandler energyStorageHandler = new METAEnergyStorageHandler(MAX_ENERGY_STORED);
+    private int currentRemainingTicks;
     private String customName;
 
     public TileMETA() {
-        currentModRemainingTicks = 0;
-        currentEnergyStorage = 0;
+        currentRemainingTicks = 0;
         customName = "";
     }
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+        if (capability == CapabilityEnergy.ENERGY)
+            LogUtility.info("HAS ENERGY CAPABILITY?");
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY
+                || capability == CapabilityEnergy.ENERGY
+                || super.hasCapability(capability, facing);
     }
 
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
             return  CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(inventoryItemHandler);
+        if (capability == CapabilityEnergy.ENERGY) {
+            LogUtility.info("GET ENERGY CAPABILITY");
+            return  CapabilityEnergy.ENERGY.cast(energyStorageHandler);
+        }
 
         return super.getCapability(capability, facing);
     }
@@ -61,6 +72,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
         super.onDataPacket(net, pkt);
         if(net.getDirection() == EnumPacketDirection.CLIENTBOUND) {
             readFromNBT(pkt.getNbtCompound());
+            markDirty();
         }
     }
 
@@ -70,7 +82,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
         tag.setString("CustomName", customName);
         tag.setTag("Inventory", inventoryItemHandler.serializeNBT());
         tag.setInteger("RemainingTicks", getTicksRemaining());
-        tag.setInteger("EnergyStorage", this.currentEnergyStorage);
+        tag.setInteger("EnergyStorage", this.energyStorageHandler.getEnergyStored());
         return tag;
     }
 
@@ -79,8 +91,9 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
         super.handleUpdateTag(tag);
         customName = tag.getString("CustomName");
         inventoryItemHandler.deserializeNBT(tag.getCompoundTag("Inventory"));
-        currentModRemainingTicks = tag.getInteger("RemainingTicks");
-        currentEnergyStorage = tag.getInteger("EnergyStorage");
+        currentRemainingTicks = tag.getInteger("RemainingTicks");
+        energyStorageHandler.setEnergyStored(tag.getInteger("EnergyStorage"));
+        markDirty();
     }
 
     public String getName() {
@@ -96,8 +109,8 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
 
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        currentModRemainingTicks = compound.getInteger("RemainingTicks");
-        currentEnergyStorage = compound.getInteger("EnergyStorage");
+        currentRemainingTicks = compound.getInteger("RemainingTicks");
+        energyStorageHandler.setEnergyStored(compound.getInteger("EnergyStorage"));
         inventoryItemHandler.deserializeNBT(compound.getCompoundTag("Inventory"));
         markDirty();
 
@@ -108,8 +121,8 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
 
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        compound.setInteger("RemainingTicks", this.currentModRemainingTicks);
-        compound.setInteger("EnergyStorage", this.currentEnergyStorage);
+        compound.setInteger("RemainingTicks", this.currentRemainingTicks);
+        compound.setInteger("EnergyStorage", this.energyStorageHandler.getEnergyStored());
         compound.setTag("Inventory", inventoryItemHandler.serializeNBT());
 
         if (this.hasCustomName()) {
@@ -121,7 +134,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
 
     public boolean isActive() {
         // Whether the M.E.T.A. is active for external visual purposes.
-        return getTicksRemaining() > 0 && currentEnergyStorage < MAX_ENERGY_STORED;
+        return getTicksRemaining() > 0 && energyStorageHandler.getEnergyStored() < MAX_ENERGY_STORED;
     }
 
     private void tryConsumeMod() {
@@ -129,7 +142,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
             if(inventoryItemHandler.getStackInSlot(0).getItem().equals(ModItems.itemMod)
                     && getTicksRemaining() == 0) {
                 LogUtility.infoSided("Consuming mod in META...");
-                currentModRemainingTicks = TICKS_PER_MOD;
+                currentRemainingTicks = TICKS_PER_MOD;
                 inventoryItemHandler.setStackInSlot(0, ItemStack.EMPTY);
                 markDirty();
             }
@@ -140,8 +153,12 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
         tryConsumeMod();
 
         if (getTicksRemaining() > 0) {
-            currentModRemainingTicks--;
-            currentEnergyStorage += FE_PER_TICK;
+            if(energyStorageHandler.getEnergyStored() < MAX_ENERGY_STORED) {
+                currentRemainingTicks--;
+                energyStorageHandler.setEnergyStored(energyStorageHandler.getEnergyStored() + FE_PER_TICK);
+            } else {
+                // On hold.
+            }
         }
     }
 
@@ -167,46 +184,23 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
     }
 
     public int getTicksRemaining() {
-        LogUtility.infoSided("Remaining: %d", currentModRemainingTicks);
-        return currentModRemainingTicks;
+        //LogUtility.infoSided("Remaining: %d", currentRemainingTicks);
+        return currentRemainingTicks;
     }
 
-    @Override
-    public int receiveEnergy(int maxReceive, boolean simulate) {
-        // Never receive energy.
-        return 0;
-    }
-    @Override
-    public int extractEnergy(int maxExtract, boolean simulate) {
-        // Give energy to others! If simulate is false, modify the internal storage.
-        int temp;
-        if (maxExtract > currentEnergyStorage) {
-            temp = currentEnergyStorage;
-            if (!simulate)
-                currentEnergyStorage = 0;
-        } else {
-            temp = maxExtract;
-            if (!simulate)
-                currentEnergyStorage -= temp;
-        }
-
-        return temp;
-    }
-    @Override
     public int getEnergyStored() {
         // Tell others what my current energy storage is.
-        return currentEnergyStorage;
+        return energyStorageHandler.getEnergyStored();
     }
-    @Override
-    public int getMaxEnergyStored() {
-        return 0;
+
+    public void setCurrentEnergyStorage(int currentEnergyStorage) {
+        this.energyStorageHandler.setEnergyStored(currentEnergyStorage);
+        markDirty();
     }
-    @Override
-    public boolean canExtract() {
-        return false;
-    }
-    @Override
-    public boolean canReceive() {
-        return false;
+
+    public void setRemainingTicks(int remainingTicks) {
+        //LogUtility.info("Set Remaining = %d", remainingTicks);
+        this.currentRemainingTicks = remainingTicks;
+        markDirty();
     }
 }

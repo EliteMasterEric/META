@@ -67,6 +67,7 @@ public class TileModMaker extends TileEntity implements ITickable {
         super.onDataPacket(net, pkt);
         if(net.getDirection() == EnumPacketDirection.CLIENTBOUND) {
             readFromNBT(pkt.getNbtCompound());
+            markDirty();
         }
     }
 
@@ -85,6 +86,7 @@ public class TileModMaker extends TileEntity implements ITickable {
         customName = tag.getString("CustomName");
         inventoryItemHandler.deserializeNBT(tag.getCompoundTag("Inventory"));
         modMakerCurrentWaitTime = tag.getInteger("TicksRemaining");
+        markDirty();
     }
 
     public String getName() {
