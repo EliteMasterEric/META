@@ -28,8 +28,10 @@ public class META {
     public void preInit(FMLPreInitializationEvent event) {
 		FMLLog.getLogger().info("Initializing mod " + Reference.MOD_ID);
 
-		//TODO add achievements
-		//TODO add CommonCapabilites support
+		//TODO bugfix achievements
+		//TODO add CommonCapabilites wrench to META
+		//TODO add CommonCapabilites working to META
+		//TODO add CommonCapabilites working to Mod Maker
 
 		proxy.preInit(event);
     }

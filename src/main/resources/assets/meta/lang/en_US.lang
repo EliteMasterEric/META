@@ -37,4 +37,15 @@ item.meta.mod.desc.rand.12=A mod that adds farts!
 item.meta.mod.desc.rand.13=A mod that adds more animals!
 item.meta.mod.desc.rand.14=A mod that adds ADVANCED hunger and thirst mechanics!
 item.meta.mod.desc.rand.15=A mod that lets you craft one dirt into 64 diamonds!
-item.meta.mod.desc.rand.15=A mod that adds guns!
+item.meta.mod.desc.rand.16=A mod that adds guns!
+
+achievements.meta.create_mod_maker=Inspiration
+achievements.meta.create_mod_maker.desc=Craft a Mod Maker.
+achievements.meta.create_mod=It's Gonna Get A Million Downloads!
+achievements.meta.create_mod.desc=Create a Mod.
+achievements.meta.create_meta=Even This Acronym Is...
+achievements.meta.create_meta.desc=Create a M.E.T.A.
+achievements.meta.use_mod=Might As Well Burn It
+achievements.meta.use_mod.desc=Put a Mod into a M.E.T.A.
+achievements.meta.use_mod_dumb=(Secret) Mod 190
+achievements.meta.use_mod_dumb.desc=Find a mod that makes the Mod Maker and M.E.T.A. not work together.
