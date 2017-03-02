@@ -23,16 +23,17 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import sun.rmi.runtime.Log;
 
-public class TileMETA extends TileEntity implements ITickable {
+public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
     public static final int MAX_ENERGY_STORED = 80000; // A little over half of one mod's worth of energy.
     public static final int FE_PER_MOD = 150000; // A little under 1 coal block of power.
     public static final int FE_PER_TICK = 60; // 50% higher than an Extra Utilities furnace generator.
     public static final int TICKS_PER_MOD = FE_PER_MOD / FE_PER_TICK; // 2500 ticks per mod.
 
     private METAItemStackHandler inventoryItemHandler = new METAItemStackHandler(1);
-    private METAEnergyStorageHandler energyStorageHandler = new METAEnergyStorageHandler(MAX_ENERGY_STORED);
     private int currentRemainingTicks;
     private String customName;
+
+    private int currentEnergyStorage;
 
     public TileMETA() {
         currentRemainingTicks = 0;
@@ -52,7 +53,7 @@ public class TileMETA extends TileEntity implements ITickable {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
             return  CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(inventoryItemHandler);
         if (capability == CapabilityEnergy.ENERGY)
-            return  CapabilityEnergy.ENERGY.cast(energyStorageHandler);
+            return  CapabilityEnergy.ENERGY.cast(this);
 
         return super.getCapability(capability, facing);
     }
@@ -78,7 +79,7 @@ public class TileMETA extends TileEntity implements ITickable {
         tag.setString("CustomName", customName);
         tag.setTag("Inventory", inventoryItemHandler.serializeNBT());
         tag.setInteger("RemainingTicks", getTicksRemaining());
-        tag.setInteger("EnergyStorage", this.energyStorageHandler.getEnergyStored());
+        tag.setInteger("EnergyStorage", currentEnergyStorage);
         return tag;
     }
 
@@ -88,7 +89,7 @@ public class TileMETA extends TileEntity implements ITickable {
         customName = tag.getString("CustomName");
         inventoryItemHandler.deserializeNBT(tag.getCompoundTag("Inventory"));
         currentRemainingTicks = tag.getInteger("RemainingTicks");
-        energyStorageHandler.setEnergyStored(tag.getInteger("EnergyStorage"));
+        currentEnergyStorage = tag.getInteger("EnergyStorage");
         markDirty();
     }
 
@@ -106,7 +107,7 @@ public class TileMETA extends TileEntity implements ITickable {
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
         currentRemainingTicks = compound.getInteger("RemainingTicks");
-        energyStorageHandler.setEnergyStored(compound.getInteger("EnergyStorage"));
+        currentEnergyStorage = compound.getInteger("EnergyStorage");
         inventoryItemHandler.deserializeNBT(compound.getCompoundTag("Inventory"));
         markDirty();
 
@@ -118,7 +119,7 @@ public class TileMETA extends TileEntity implements ITickable {
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setInteger("RemainingTicks", this.currentRemainingTicks);
-        compound.setInteger("EnergyStorage", this.energyStorageHandler.getEnergyStored());
+        compound.setInteger("EnergyStorage", this.currentEnergyStorage);
         compound.setTag("Inventory", inventoryItemHandler.serializeNBT());
 
         if (this.hasCustomName()) {
@@ -130,7 +131,7 @@ public class TileMETA extends TileEntity implements ITickable {
 
     public boolean isActive() {
         // Whether the M.E.T.A. is active for external visual purposes.
-        return getTicksRemaining() > 0 && energyStorageHandler.getEnergyStored() < MAX_ENERGY_STORED;
+        return getTicksRemaining() > 0 && currentEnergyStorage < MAX_ENERGY_STORED;
     }
 
     private void tryConsumeMod() {
@@ -150,9 +151,9 @@ public class TileMETA extends TileEntity implements ITickable {
             tryConsumeMod();
 
             if (getTicksRemaining() > 0) {
-                if(energyStorageHandler.getEnergyStored() < MAX_ENERGY_STORED) {
+                if(currentEnergyStorage < MAX_ENERGY_STORED) {
                     currentRemainingTicks--;
-                    energyStorageHandler.setEnergyStored(Math.min(energyStorageHandler.getEnergyStored() + FE_PER_TICK, MAX_ENERGY_STORED));
+                    currentEnergyStorage = (Math.min(currentEnergyStorage + FE_PER_TICK, MAX_ENERGY_STORED));
                 } else {
                     // On hold.
                 }
@@ -186,19 +187,46 @@ public class TileMETA extends TileEntity implements ITickable {
         return currentRemainingTicks;
     }
 
+    @Override
+    public int receiveEnergy(int maxReceive, boolean simulate) {
+        // Never receive energy.
+        return 0;
+    }
+    @Override
+    public int extractEnergy(int maxExtract, boolean simulate) {
+        if (!canExtract())
+            return 0;
+
+        int energyExtracted = Math.min(currentEnergyStorage, Math.min(this.currentEnergyStorage, maxExtract));
+        if (!simulate)
+            currentEnergyStorage -= energyExtracted;
+        return energyExtracted;
+    }
+    @Override
     public int getEnergyStored() {
         // Tell others what my current energy storage is.
-        LogUtility.infoSided("Energy Stored: %d", energyStorageHandler.getEnergyStored());
-        return energyStorageHandler.getEnergyStored();
+        LogUtility.infoSided("Energy Stored: %d", currentEnergyStorage);
+        return currentEnergyStorage;
+    }
+    @Override
+    public int getMaxEnergyStored() {
+        return MAX_ENERGY_STORED;
+    }
+    @Override
+    public boolean canExtract() {
+        return true;
+    }
+    @Override
+    public boolean canReceive() {
+        return false;
     }
 
     public void setCurrentEnergyStorage(int currentEnergyStorage) {
-        this.energyStorageHandler.setEnergyStored(currentEnergyStorage);
+        this.currentEnergyStorage = currentEnergyStorage;
         markDirty();
     }
 
     public void setRemainingTicks(int remainingTicks) {
-        //LogUtility.info("Set Remaining = %d", remainingTicks);
         this.currentRemainingTicks = remainingTicks;
         markDirty();
     }

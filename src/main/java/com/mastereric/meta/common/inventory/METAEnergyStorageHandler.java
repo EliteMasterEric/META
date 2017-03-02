@@ -4,6 +4,8 @@ import com.mastereric.meta.util.LogUtility;
 import net.minecraftforge.energy.EnergyStorage;
 
 public class METAEnergyStorageHandler extends EnergyStorage {
+    //    private METAEnergyStorageHandler energyStorageHandler = new METAEnergyStorageHandler(MAX_ENERGY_STORED);
+
     // The maximum amount received per tick. Since this is a generator this is 0.
     public static final int MAX_RECEIVE = 0;
     // The maximum output per tick.
@@ -24,16 +26,7 @@ public class METAEnergyStorageHandler extends EnergyStorage {
         return energyReceived;
     }
 
-    @Override
-    public int extractEnergy(int maxExtract, boolean simulate) {
-        if (!canExtract())
-            return 0;
 
-        int energyExtracted = Math.min(energy, Math.min(this.maxExtract, maxExtract));
-        if (!simulate)
-            energy -= energyExtracted;
-        return energyExtracted;
-    }
 
     public void setEnergyStored(int energy) {
         this.energy = energy;

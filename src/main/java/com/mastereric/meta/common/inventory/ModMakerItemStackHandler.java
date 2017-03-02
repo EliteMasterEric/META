@@ -23,7 +23,7 @@ public class ModMakerItemStackHandler extends ItemStackHandler {
     @Override
     public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
         // Keep the same, since TileModMaker doesn't allow external insertion.
-        // TODO You can't shift click in but you can still place items in.
+        // TODO You can still place items in manually.
         return ItemStack.EMPTY;
     }
 

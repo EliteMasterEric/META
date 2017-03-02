@@ -63,12 +63,8 @@ public class GuiModMaker extends GuiContainer {
         this.drawTexturedModalRect(xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         LogUtility.info("PROGRESS: %f", this.getProgress());
-        if(this.getProgress() == 100) {
-            this.drawTexturedModalRect(xPos + PROGRESS_X, yPos + PROGRESS_Y, 176, 4, 16, PROGRESS_HEIGHT + 1);
-        } else {
-            int progress = this.getProgressScaled(PROGRESS_HEIGHT);
-            this.drawTexturedModalRect(xPos + PROGRESS_X, yPos + PROGRESS_Y - progress, 176, PROGRESS_HEIGHT - progress, 16, progress);
-        }
+        int progress = this.getProgressScaled(PROGRESS_HEIGHT);
+        this.drawTexturedModalRect(xPos + PROGRESS_X, yPos + PROGRESS_Y - progress, 176, PROGRESS_HEIGHT - progress, 16, progress);
 
 
         // If hovering over progress bar...

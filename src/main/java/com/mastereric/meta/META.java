@@ -28,6 +28,10 @@ public class META {
     public void preInit(FMLPreInitializationEvent event) {
 		FMLLog.getLogger().info("Initializing mod " + Reference.MOD_ID);
 
+		//TODO add CompatLayer
+		//TODO test on 1.11.2
+		//TODO test on 1.10.2
+		//TODO test on 1.9.4
 		//TODO bugfix achievements
 		//TODO add CommonCapabilites wrench to META
 		//TODO add CommonCapabilites working to META
