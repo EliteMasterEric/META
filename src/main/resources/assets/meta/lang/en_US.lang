@@ -7,8 +7,7 @@ container.meta.meta=M.E.T.A.
 item.meta.mod.name=§6Mod
 item.meta.mod_dumb.name=§6Mod
 tile.meta.mod_maker.name=§6Mod Maker
-tile.meta.meta_inactive.name=§6M.E.T.A.
-tile.meta.meta_active.name=§4Active M.E.T.A
+tile.meta.meta.name=§6M.E.T.A.
 
 gui.meta.mod_maker_progress=%%d%%%% complete
 gui.meta.mod_maker_complete=Completed!
@@ -17,8 +16,7 @@ gui.meta.mod_maker_zero_mult=This Mod Maker needs inspiration!
 gui.meta.meta_storage=%%d/%%d FE
 
 tile.meta.mod_maker.desc=Creates mods from nearby sources of inspiration.
-tile.meta.meta_inactive.desc=Modification Energy Terra-Amalgamator\nGenerates FE from mods.
-tile.meta.meta_active.desc=Report this to the mod author!
+tile.meta.meta.desc=Modification Energy Terra-Amalgamator\nGenerates FE from mods.
 
 item.meta.mod_dumb.desc=A mod that prevents the Mod Maker and M.E.T.A. from working together!
 item.meta.mod.desc.rand.0=A mod that adds dinosaurs!
@@ -38,14 +36,17 @@ item.meta.mod.desc.rand.13=A mod that adds more animals!
 item.meta.mod.desc.rand.14=A mod that adds ADVANCED hunger and thirst mechanics!
 item.meta.mod.desc.rand.15=A mod that lets you craft one dirt into 64 diamonds!
 item.meta.mod.desc.rand.16=A mod that adds guns!
+item.meta.mod.desc.rand.17=A mod that adds a generator powered by mod ideas!
 
-achievements.meta.create_mod_maker=Inspiration
-achievements.meta.create_mod_maker.desc=Craft a Mod Maker.
-achievements.meta.create_mod=It's Gonna Get A Million Downloads!
-achievements.meta.create_mod.desc=Create a Mod.
-achievements.meta.create_meta=Even This Acronym Is...
-achievements.meta.create_meta.desc=Create a M.E.T.A.
-achievements.meta.use_mod=Might As Well Burn It
-achievements.meta.use_mod.desc=Put a Mod into a M.E.T.A.
-achievements.meta.use_mod_dumb=(Secret) Mod 190
-achievements.meta.use_mod_dumb.desc=Find a mod that makes the Mod Maker and M.E.T.A. not work together.
+achievements.meta=M.E.T.A.
+
+achievement.meta.create_mod_maker=Inspiration
+achievement.meta.create_mod_maker.desc=Craft a Mod Maker.
+achievement.meta.create_mod=It'll Get A Million Downloads!
+achievement.meta.create_mod.desc=Create a Mod.
+achievement.meta.create_meta=Even This Acronym Is...
+achievement.meta.create_meta.desc=Create a M.E.T.A.
+achievement.meta.use_mod=Up In Green Smoke
+achievement.meta.use_mod.desc=Put a Mod into a M.E.T.A.
+achievement.meta.create_mod_dumb=(Secret) Mod Idea #190
+achievement.meta.create_mod_dumb.desc=Find a mod that makes the Mod Maker and M.E.T.A. not work together.

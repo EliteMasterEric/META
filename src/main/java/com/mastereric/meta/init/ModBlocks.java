@@ -20,35 +20,28 @@ package com.mastereric.meta.init;
 
 public final class ModBlocks {
     public static Block blockModMaker;
-    public static Block blockMETAInactive;
-    public static Block blockMETAActive;
+    public static Block blockMETA;
 
     public static ItemBlock itemBlockModMaker;
-    public static ItemBlock itemBlockMETAInactive;
-    public static ItemBlock itemBlockMETAActive;
+    public static ItemBlock itemBlockMETA;
 
     public static void initializeBlocks() {
         blockModMaker = new BlockModMaker();
         itemBlockModMaker = new ItemBlockDesc(blockModMaker);
         registerBlock(blockModMaker, Reference.NAME_BLOCK_MOD_MAKER, itemBlockModMaker);
-
-        blockMETAInactive = new BlockMETA(false);
-        itemBlockMETAInactive = new ItemBlockDesc(blockMETAInactive);
-        registerBlock(blockMETAInactive, Reference.NAME_BLOCK_META_INACTIVE, itemBlockMETAInactive);
         registerTileEntity(TileModMaker.class, Reference.NAME_BLOCK_MOD_MAKER);
 
-        blockMETAActive = new BlockMETA(true);
-        itemBlockMETAActive = new ItemBlockDesc(blockMETAActive);
-        registerBlock(blockMETAActive, Reference.NAME_BLOCK_META_ACTIVE, itemBlockMETAActive,false);
-        registerTileEntity(TileMETA.class, Reference.NAME_BLOCK_META_INACTIVE);
+        blockMETA = new BlockMETA();
+        itemBlockMETA = new ItemBlockDesc(blockMETA);
+        registerBlock(blockMETA, Reference.NAME_BLOCK_META, itemBlockMETA);
+        registerTileEntity(TileMETA.class, Reference.NAME_BLOCK_META);
     }
 
     @SideOnly(Side.CLIENT)
     public static void initializeBlockModels() {
         // Run this on the ClientProxy after running initializeItems.
         registerBlockModel(blockModMaker);
-        registerBlockModel(blockMETAActive);
-        registerBlockModel(blockMETAInactive);
+        registerBlockModel(blockMETA);
     }
 
     private static void registerBlock(Block block, String registryName) {

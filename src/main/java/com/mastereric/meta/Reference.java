@@ -13,15 +13,14 @@ public class Reference {
 	public static final String NAME_ITEM_MOD = "mod";
 	public static final String NAME_ITEM_MOD_DUMB = "mod_dumb";
 	public static final String NAME_BLOCK_MOD_MAKER = "mod_maker";
-	public static final String NAME_BLOCK_META_INACTIVE = "meta_inactive";
-	public static final String NAME_BLOCK_META_ACTIVE = "meta_active";
+	public static final String NAME_BLOCK_META = "meta";
 
     public static final String NAME_ACHIEVEMENT_PAGE= "achievements.meta";
-	public static final String NAME_ACHIEVEMENT_CREATE_MOD_MAKER = "achievements.meta.create_mod_maker";
-	public static final String NAME_ACHIEVEMENT_CREATE_MOD = "achievements.meta.create_mod";
-	public static final String NAME_ACHIEVEMENT_CREATE_META = "achievements.meta.create_meta";
-	public static final String NAME_ACHIEVEMENT_USE_MOD = "achievements.meta.use_mod";
-	public static final String NAME_ACHIEVEMENT_USE_MOD_DUMB = "achievements.meta.use_mod_dumb";
+	public static final String NAME_ACHIEVEMENT_CREATE_MOD_MAKER = "meta.create_mod_maker";
+	public static final String NAME_ACHIEVEMENT_CREATE_MOD = "meta.create_mod";
+	public static final String NAME_ACHIEVEMENT_CREATE_META = "meta.create_meta";
+	public static final String NAME_ACHIEVEMENT_CREATE_MOD_DUMB = "meta.create_mod_dumb";
+	public static final String NAME_ACHIEVEMENT_USE_MOD = "meta.use_mod";
 
 	public static final String NAME_TEXTURE_PARTICLE_MOD_MAKER_FORMAT = "particles/mod_maker_%d";
 

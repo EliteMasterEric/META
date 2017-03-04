@@ -29,8 +29,12 @@ public class TileModMaker extends TileEntity implements ITickable {
     private int lastSpeedMultiplier = 0;
     private String customName = "";
 
+    //TODO add mod maker craft achievement trigger
+    //TODO add JEI progress display
+
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+        //TODO add CommonCapabilites working to Mod Maker
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
@@ -132,7 +136,7 @@ public class TileModMaker extends TileEntity implements ITickable {
         if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
             LogUtility.infoSided("Creating mod in Mod Maker...");
             ItemStack stack;
-            if (ModConfig.MOD_190)
+            if (ModConfig.MOD_IDEA_190)
                 stack = new ItemStack(ModItems.itemModDumb, 1);
             else
                 stack = new ItemStack(ModItems.itemMod, 1);

@@ -1,6 +1,7 @@
 package com.mastereric.meta.common.blocks.container;
 
 import com.mastereric.meta.common.blocks.tile.TileModMaker;
+import com.mastereric.meta.common.inventory.SlotInventoryModMaker;
 import com.mastereric.meta.util.LogUtility;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -69,7 +70,8 @@ public class ContainerModMaker extends Container {
         }
 
         // Output slot.
-        this.addSlotToContainer(new SlotItemHandler(modMakerInventory.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP), 0, MOD_MAKER_SLOT_XPOS, MOD_MAKER_SLOT_YPOS));
+        this.addSlotToContainer(new SlotInventoryModMaker(modMakerInventory.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP),
+                0, MOD_MAKER_SLOT_XPOS, MOD_MAKER_SLOT_YPOS));
     }
 
     /**

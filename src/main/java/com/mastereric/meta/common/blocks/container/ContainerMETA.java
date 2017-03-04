@@ -2,6 +2,7 @@ package com.mastereric.meta.common.blocks.container;
 
 import com.mastereric.meta.common.blocks.tile.TileMETA;
 import com.mastereric.meta.common.blocks.tile.TileModMaker;
+import com.mastereric.meta.common.inventory.SlotInventoryMETA;
 import com.mastereric.meta.init.ModItems;
 import com.mastereric.meta.util.LogUtility;
 import net.minecraft.entity.player.EntityPlayer;
@@ -78,8 +79,8 @@ public class ContainerMETA extends Container {
         }
 
         // Output slot.
-        this.addSlotToContainer(new SlotItemHandler(tileMETA.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP),
-                0, META_SLOT_XPOS, META_SLOT_YPOS));
+        this.addSlotToContainer(new SlotInventoryMETA(tileMETA.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP),
+                0, META_SLOT_XPOS, META_SLOT_YPOS, playerInventory.player));
     }
 
     @Override
@@ -115,7 +116,7 @@ public class ContainerMETA extends Container {
                 listener.sendProgressBarUpdate(this, FIELD_REMAINING_TICKS, tileMETA.getTicksRemaining());
             }
             if (this.currentEnergyStorage != this.tileMETA.getEnergyStored()) {
-                LogUtility.infoSided("Updating energy...");
+                //LogUtility.infoSided("Updating energy...");
                 listener.sendProgressBarUpdate(this, FIELD_ENERGY_STORAGE, tileMETA.getEnergyStored());
             }
         }
@@ -143,7 +144,7 @@ public class ContainerMETA extends Container {
             // The source slot was in the player's inventory.
             // TODO can't shift-click into inventory.
             if(sourceStack.getItem().equals(ModItems.itemMod)) {
-                if (!mergeItemStack(sourceStack, META_FIRST_SLOT_INDEX, META_FIRST_SLOT_INDEX + 0, false)) {
+                if (!mergeItemStack(sourceStack, META_FIRST_SLOT_INDEX, META_FIRST_SLOT_INDEX + 1, false)) {
                     // No room in M.E.T.A., stop trying to move stuff.
                     return ItemStack.EMPTY;  //EMPTY_ITEM;
                 }

@@ -23,19 +23,18 @@ public class META {
 
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY, serverSide = Reference.SERVER_PROXY)
 	public static CommonProxy proxy;
-	
+
+	//TODO test on 1.11.2
+
+	//TODO add CompatLayer
+	//TODO test on 1.9.4
+	//TODO test on 1.10.2
+
+	//TODO add JEI "Uses" documentation like Iron Backpacks
+
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
 		FMLLog.getLogger().info("Initializing mod " + Reference.MOD_ID);
-
-		//TODO add CompatLayer
-		//TODO test on 1.11.2
-		//TODO test on 1.10.2
-		//TODO test on 1.9.4
-		//TODO bugfix achievements
-		//TODO add CommonCapabilites wrench to META
-		//TODO add CommonCapabilites working to META
-		//TODO add CommonCapabilites working to Mod Maker
 
 		proxy.preInit(event);
     }

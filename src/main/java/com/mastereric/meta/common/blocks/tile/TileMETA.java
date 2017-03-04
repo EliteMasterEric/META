@@ -1,5 +1,6 @@
 package com.mastereric.meta.common.blocks.tile;
 
+import com.mastereric.meta.common.blocks.BlockMETA;
 import com.mastereric.meta.common.inventory.METAEnergyStorageHandler;
 import com.mastereric.meta.common.inventory.METAItemStackHandler;
 import com.mastereric.meta.common.inventory.ModMakerItemStackHandler;
@@ -7,6 +8,8 @@ import com.mastereric.meta.common.items.ItemMod;
 import com.mastereric.meta.init.ModItems;
 import com.mastereric.meta.util.LangUtility;
 import com.mastereric.meta.util.LogUtility;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -40,8 +43,12 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
         customName = "";
     }
 
+    // TODO add JEI energy display
+
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+        //TODO add CommonCapabilites wrench to META
+        //TODO add CommonCapabilites working to META
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY
                 || capability == CapabilityEnergy.ENERGY
                 || super.hasCapability(capability, facing);
@@ -146,6 +153,8 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
         }
     }
 
+    private boolean wasActive = false;
+
     public void update() {
         if(!world.isRemote) {
             tryConsumeMod();
@@ -154,10 +163,17 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
                 if(currentEnergyStorage < MAX_ENERGY_STORED) {
                     currentRemainingTicks--;
                     currentEnergyStorage = (Math.min(currentEnergyStorage + FE_PER_TICK, MAX_ENERGY_STORED));
-                } else {
-                    // On hold.
                 }
             }
+
+            if (wasActive != isActive()) {
+                if (world.isRemote) {
+                    LogUtility.info("Switching block state to %b", isActive());
+                    world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos).withProperty(BlockMETA.PROPERTY_ACTIVE, isActive()), 3);
+                }
+            }
+
+            wasActive = isActive();
         }
     }
 
@@ -205,7 +221,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
     @Override
     public int getEnergyStored() {
         // Tell others what my current energy storage is.
-        LogUtility.infoSided("Energy Stored: %d", currentEnergyStorage);
+        //LogUtility.infoSided("Energy Stored: %d", currentEnergyStorage);
         return currentEnergyStorage;
     }
     @Override
@@ -230,4 +246,6 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
         this.currentRemainingTicks = remainingTicks;
         markDirty();
     }
+
+
 }

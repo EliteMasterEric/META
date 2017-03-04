@@ -1,0 +1,14 @@
+{
+    "variants": {
+    	                  "default" : { "model": "meta:meta_inactive"},
+    	                "inventory" : { "model": "meta:meta_inactive"},
+         "active=true,facing=north" : { "model": "meta:meta_active"},
+         "active=true,facing=east"  : { "model": "meta:meta_active", "y": 90 },
+         "active=true,facing=south" : { "model": "meta:meta_active", "y": 180 },
+         "active=true,facing=west"  : { "model": "meta:meta_active", "y": 270 },
+        "active=false,facing=north" : { "model": "meta:meta_inactive" },
+        "active=false,facing=east"  : { "model": "meta:meta_inactive", "y": 90 },
+        "active=false,facing=south" : { "model": "meta:meta_inactive", "y": 180 },
+        "active=false,facing=west"  : { "model": "meta:meta_inactive", "y": 270 }
+    }
+}

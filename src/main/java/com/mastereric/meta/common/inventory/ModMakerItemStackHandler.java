@@ -19,13 +19,6 @@ public class ModMakerItemStackHandler extends ItemStackHandler {
         // Number of slots.
         return 1;
     }
-    @Nonnull
-    @Override
-    public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-        // Keep the same, since TileModMaker doesn't allow external insertion.
-        // TODO You can still place items in manually.
-        return ItemStack.EMPTY;
-    }
 
     @Override
     public int getSlotLimit(int slot) {
