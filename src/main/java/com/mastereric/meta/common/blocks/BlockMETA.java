@@ -29,8 +29,10 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -191,7 +193,7 @@ public class BlockMETA extends BlockContainer {
     private static final int INACTIVE_LIGHT_VALUE = 0;
 
     public boolean isMachineActive(IBlockAccess world, BlockPos pos) {
-        TileEntity tileentity = world.getTileEntity(pos);
+        TileEntity tileentity = world instanceof ChunkCache ? ((ChunkCache)world).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : world.getTileEntity(pos);
         if (tileentity instanceof TileMETA) {
             return ((TileMETA) tileentity).isActive();
         }
