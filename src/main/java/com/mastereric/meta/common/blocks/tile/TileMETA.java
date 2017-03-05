@@ -4,6 +4,7 @@ import com.mastereric.meta.common.blocks.BlockMETA;
 import com.mastereric.meta.common.inventory.METAItemStackHandler;
 import com.mastereric.meta.init.ModBlocks;
 import com.mastereric.meta.init.ModItems;
+import com.mastereric.meta.util.ItemUtility;
 import com.mastereric.meta.util.LangUtility;
 import com.mastereric.meta.util.LogUtility;
 import net.minecraft.entity.player.EntityPlayer;
@@ -160,17 +161,16 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
                     currentEnergyStorage = (Math.min(currentEnergyStorage + FE_PER_TICK, MAX_ENERGY_STORED));
                 }
             }
-
-            if (wasActive != isActive()) {
-                if (world.isRemote) {
-                    LogUtility.info("Switching block state to %b", isActive());
-                    world.notifyNeighborsOfStateChange(pos, ModBlocks.blockMETA, true);
-                    world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos).withProperty(BlockMETA.PROPERTY_ACTIVE, isActive()), 3);
-                }
-            }
-
-            wasActive = isActive();
         }
+        if (wasActive != isActive()) {
+            LogUtility.info("Switching block state to %b", isActive());
+            world.markBlockRangeForRenderUpdate(pos, pos);
+            world.notifyNeighborsOfStateChange(pos, ModBlocks.blockMETA, true);
+            world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos).withProperty(BlockMETA.PROPERTY_ACTIVE, isActive()), 3);
+        }
+
+        wasActive = isActive();
+
     }
 
     /**
@@ -243,5 +243,8 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
         markDirty();
     }
 
+    public void dropItemsFromInventory(){
+        ItemUtility.dropItemsFromInventory(world, pos, inventoryItemHandler);
+    }
 
 }

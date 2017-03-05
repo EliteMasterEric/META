@@ -4,6 +4,7 @@ import com.mastereric.meta.common.inventory.ModMakerItemStackHandler;
 import com.mastereric.meta.common.items.ItemMod;
 import com.mastereric.meta.init.ModConfig;
 import com.mastereric.meta.init.ModItems;
+import com.mastereric.meta.util.ItemUtility;
 import com.mastereric.meta.util.LangUtility;
 import com.mastereric.meta.util.LogUtility;
 import net.minecraft.entity.player.EntityPlayer;
@@ -206,4 +207,9 @@ public class TileModMaker extends TileEntity implements ITickable {
         //LogUtility.infoSided("LastSpeed: %d", lastSpeedMultiplier);
         return lastSpeedMultiplier;
     }
+
+    public void dropItemsFromInventory(){
+        ItemUtility.dropItemsFromInventory(world, pos, inventoryItemHandler);
+    }
+
 }

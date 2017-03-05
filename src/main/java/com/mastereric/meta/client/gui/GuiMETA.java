@@ -2,16 +2,12 @@ package com.mastereric.meta.client.gui;
 
 import com.mastereric.meta.Reference;
 import com.mastereric.meta.common.blocks.container.ContainerMETA;
-import com.mastereric.meta.common.blocks.container.ContainerModMaker;
 import com.mastereric.meta.common.blocks.tile.TileMETA;
-import com.mastereric.meta.common.blocks.tile.TileModMaker;
 import com.mastereric.meta.util.LangUtility;
-import com.mastereric.meta.util.LogUtility;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.world.World;
-import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,12 +44,10 @@ public class GuiMETA extends GuiContainer {
     private int getTicksRemainingScaled(int progressIndicatorPixelHeight) {
         double percent = (getTicksRemaining() / (double) TileMETA.TICKS_PER_MOD);
         int value = (int) Math.floor(percent * progressIndicatorPixelHeight);
-        //LogUtility.info("Remaining: %f / %d = %f, %d", getTicksRemaining(), TileMETA.TICKS_PER_MOD, percent, value);
         return value;
     }
 
     private double getCurrentEnergy() {
-        //LogUtility.infoSided("Energy Stored: %d", inventoryMETA.getEnergyStored());
         return inventoryMETA.getEnergyStored();
     }
 

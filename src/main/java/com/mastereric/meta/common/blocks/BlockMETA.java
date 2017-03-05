@@ -37,8 +37,6 @@ import java.util.Random;
 public class BlockMETA extends BlockContainer {
     public static final PropertyDirection direction = BlockHorizontal.FACING;
 
-    //TODO debug META orientation, ask Discord?
-    //TODO add meta craft achievement trigger
     //TODO breaking does not drop contents
 
     public BlockMETA() {
@@ -71,7 +69,7 @@ public class BlockMETA extends BlockContainer {
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
         TileEntity tileentity = worldIn.getTileEntity(pos);
         if (tileentity instanceof TileMETA) {
-
+            ((TileMETA) tileentity).dropItemsFromInventory();
             worldIn.updateComparatorOutputLevel(pos, this);
         }
 
@@ -88,7 +86,8 @@ public class BlockMETA extends BlockContainer {
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
         super.randomDisplayTick(stateIn, worldIn, pos, rand);
 
-        if (stateIn.getValue(PROPERTY_ACTIVE)) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if (tileEntity instanceof TileMETA && ((TileMETA) tileEntity).isActive()) {
             double d0 = (double) pos.getX() + 0.5D;
             double d1 = (double) pos.getY() + rand.nextDouble() * 6.0D / 16.0D;
             double d2 = (double) pos.getZ() + 0.5D;

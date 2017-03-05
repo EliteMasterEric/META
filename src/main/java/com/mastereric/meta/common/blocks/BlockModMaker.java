@@ -3,7 +3,6 @@ package com.mastereric.meta.common.blocks;
 import com.mastereric.meta.META;
 import com.mastereric.meta.Reference;
 import com.mastereric.meta.client.particles.ParticleModMaker;
-import com.mastereric.meta.common.blocks.tile.TileMETA;
 import com.mastereric.meta.common.blocks.tile.TileModMaker;
 import com.mastereric.meta.init.ModBlocks;
 import net.minecraft.block.BlockContainer;
@@ -55,6 +54,7 @@ public class BlockModMaker extends BlockContainer {
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
         TileEntity tileentity = worldIn.getTileEntity(pos);
         if (tileentity instanceof TileModMaker) {
+            ((TileModMaker) tileentity).dropItemsFromInventory();
             worldIn.updateComparatorOutputLevel(pos, this);
         }
 

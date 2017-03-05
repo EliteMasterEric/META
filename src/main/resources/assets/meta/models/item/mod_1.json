@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "meta:items/mod"
+        "layer0": "meta:items/mod_1"
     }
 }

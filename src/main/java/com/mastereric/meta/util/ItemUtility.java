@@ -1,0 +1,26 @@
+package com.mastereric.meta.util;
+
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.items.ItemStackHandler;
+
+public class ItemUtility {
+    public static void dropItemsFromInventory(World world, BlockPos pos, ItemStackHandler inventoryItemHandler){
+        for (int i = 0; i < inventoryItemHandler.getSlots(); i++) {
+            ItemStack stack = inventoryItemHandler.getStackInSlot(i);
+            if(!stack.isEmpty() && stack.getCount() != 0){
+                float dX = world.rand.nextFloat()*0.8F+0.1F;
+                float dY = world.rand.nextFloat()*0.8F+0.1F;
+                float dZ = world.rand.nextFloat()*0.8F+0.1F;
+                EntityItem entityItem = new EntityItem(world, pos.getX()+dX, pos.getY()+dY, pos.getZ()+dZ, stack.copy());
+                float factor = 0.05F;
+                entityItem.motionX = world.rand.nextGaussian()*factor;
+                entityItem.motionY = world.rand.nextGaussian()*factor+0.2F;
+                entityItem.motionZ = world.rand.nextGaussian()*factor;
+                world.spawnEntity(entityItem);
+            }
+        }
+    }
+}

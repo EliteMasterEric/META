@@ -4,14 +4,10 @@ import com.mastereric.meta.Reference;
 import com.mastereric.meta.common.blocks.container.ContainerModMaker;
 import com.mastereric.meta.common.blocks.tile.TileModMaker;
 import com.mastereric.meta.util.LangUtility;
-import com.mastereric.meta.util.LogUtility;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.world.World;
-import org.apache.commons.codec.language.bm.Lang;
-import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +58,7 @@ public class GuiModMaker extends GuiContainer {
         int yPos = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(xPos, yPos, 0, 0, this.xSize, this.ySize);
 
-        LogUtility.info("PROGRESS: %f", this.getProgress());
+        //LogUtility.info("PROGRESS: %f", this.getProgress());
         int progress = this.getProgressScaled(PROGRESS_HEIGHT);
         this.drawTexturedModalRect(xPos + PROGRESS_X, yPos + PROGRESS_Y - progress, 176, PROGRESS_HEIGHT - progress, 16, progress);
 

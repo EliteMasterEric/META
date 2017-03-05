@@ -3,7 +3,6 @@ package com.mastereric.meta.init;
 import com.mastereric.meta.META;
 import com.mastereric.meta.Reference;
 import com.mastereric.meta.common.items.ItemMod;
-
 import com.mastereric.meta.common.items.ItemModDumb;
 import com.mastereric.meta.util.LogUtility;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -29,7 +28,11 @@ public final class ModItems {
 	public static void initializeItemModels() {
 		LogUtility.info("Initializing item models.");
     	// Run this on the ClientProxy after running initializeItems.
-    	registerItemModel(itemMod);
+		registerItemModel(itemMod, 0, itemMod.getRegistryName() + "_0");
+		registerItemModel(itemMod, 1, itemMod.getRegistryName() + "_1");
+		registerItemModel(itemMod, 2, itemMod.getRegistryName() + "_2");
+		registerItemModel(itemMod, 3, itemMod.getRegistryName() + "_3");
+		registerItemModel(itemMod, 4, itemMod.getRegistryName() + "_4");
         registerItemModel(itemModDumb);
     }
 
@@ -58,10 +61,15 @@ public final class ModItems {
 
     @SideOnly(Side.CLIENT)
     private static void registerItemModel(Item item, int metadata) {
-    	// Register the item model.
-    	ModelLoader.setCustomModelResourceLocation(item, metadata,
-    			new ModelResourceLocation(item.getRegistryName(), "inventory"));
-
-		LogUtility.info("Registered item model ~ %s", item.getRegistryName());
+    	registerItemModel(item, metadata, item.getRegistryName().toString());
     }
+
+	@SideOnly(Side.CLIENT)
+	private static void registerItemModel(Item item, int metadata, String modelName) {
+		// Register the item model.
+		ModelLoader.setCustomModelResourceLocation(item, metadata,
+				new ModelResourceLocation(modelName, "inventory"));
+
+		LogUtility.info("Registered item model ~ %s#%s", modelName, "inventory");
+	}
 }

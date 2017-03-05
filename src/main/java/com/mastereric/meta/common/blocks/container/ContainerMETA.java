@@ -1,7 +1,6 @@
 package com.mastereric.meta.common.blocks.container;
 
 import com.mastereric.meta.common.blocks.tile.TileMETA;
-import com.mastereric.meta.common.blocks.tile.TileModMaker;
 import com.mastereric.meta.common.inventory.SlotInventoryMETA;
 import com.mastereric.meta.init.ModItems;
 import com.mastereric.meta.util.LogUtility;
@@ -16,7 +15,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
 
 public class ContainerMETA extends Container {
     private final TileMETA tileMETA;
@@ -142,7 +140,6 @@ public class ContainerMETA extends Container {
 
         if (PLAYER_FIRST_SLOT_INDEX <= sourceSlotIndex && sourceSlotIndex < PLAYER_FIRST_SLOT_INDEX + PLAYER_SLOT_COUNT) {
             // The source slot was in the player's inventory.
-            // TODO can't shift-click into inventory.
             if(sourceStack.getItem().equals(ModItems.itemMod)) {
                 if (!mergeItemStack(sourceStack, META_FIRST_SLOT_INDEX, META_FIRST_SLOT_INDEX + 1, false)) {
                     // No room in M.E.T.A., stop trying to move stuff.
