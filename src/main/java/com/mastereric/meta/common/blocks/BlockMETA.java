@@ -37,8 +37,6 @@ import java.util.Random;
 public class BlockMETA extends BlockContainer {
     public static final PropertyDirection direction = BlockHorizontal.FACING;
 
-    //TODO breaking does not drop contents
-
     public BlockMETA() {
         super(Material.IRON);
         this.setDefaultState(this.blockState.getBaseState().withProperty(BlockHorizontal.FACING, EnumFacing.NORTH));

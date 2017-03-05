@@ -19,7 +19,6 @@ eclipse/
 classes/
 *.txt
 *.launch
-*.gradle
 \.project
 \.classpath
 \.settings/

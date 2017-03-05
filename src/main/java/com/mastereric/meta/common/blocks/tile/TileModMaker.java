@@ -150,14 +150,14 @@ public class TileModMaker extends TileEntity implements ITickable {
         int nearbyShelves = 0;
         for (int j = -1; j <= 1; ++j) {
             for (int k = -1; k <= 1; ++k) {
-                if ((j != 0 || k != 0) && world.isAirBlock(pos.add(k, 0, j)) && world.isAirBlock(pos.add(k, 1, j))) {
-                    nearbyShelves += net.minecraftforge.common.ForgeHooks.getEnchantPower(world, pos.add(k * 2, 0, j * 2));
-                    nearbyShelves += net.minecraftforge.common.ForgeHooks.getEnchantPower(world, pos.add(k * 2, 1, j * 2));
+                if ((j != 0 || k != 0) && getWorld().isAirBlock(pos.add(k, 0, j)) && getWorld().isAirBlock(pos.add(k, 1, j))) {
+                    nearbyShelves += net.minecraftforge.common.ForgeHooks.getEnchantPower(getWorld(), pos.add(k * 2, 0, j * 2));
+                    nearbyShelves += net.minecraftforge.common.ForgeHooks.getEnchantPower(getWorld(), pos.add(k * 2, 1, j * 2));
                     if (k != 0 && j != 0) {
-                        nearbyShelves += net.minecraftforge.common.ForgeHooks.getEnchantPower(world, pos.add(k * 2, 0, j));
-                        nearbyShelves += net.minecraftforge.common.ForgeHooks.getEnchantPower(world, pos.add(k * 2, 1, j));
-                        nearbyShelves += net.minecraftforge.common.ForgeHooks.getEnchantPower(world, pos.add(k, 0, j * 2));
-                        nearbyShelves += net.minecraftforge.common.ForgeHooks.getEnchantPower(world, pos.add(k, 1, j * 2));
+                        nearbyShelves += net.minecraftforge.common.ForgeHooks.getEnchantPower(getWorld(), pos.add(k * 2, 0, j));
+                        nearbyShelves += net.minecraftforge.common.ForgeHooks.getEnchantPower(getWorld(), pos.add(k * 2, 1, j));
+                        nearbyShelves += net.minecraftforge.common.ForgeHooks.getEnchantPower(getWorld(), pos.add(k, 0, j * 2));
+                        nearbyShelves += net.minecraftforge.common.ForgeHooks.getEnchantPower(getWorld(), pos.add(k, 1, j * 2));
                     }
                 }
             }
@@ -179,7 +179,7 @@ public class TileModMaker extends TileEntity implements ITickable {
      * Don't rename this method to canInteractWith due to conflicts with Container
      */
     public boolean isUsableByPlayer(EntityPlayer player) {
-        return this.world.getTileEntity(this.pos) == this && player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+        return this.getWorld().getTileEntity(this.pos) == this && player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
     }
 
     public void openInventory(EntityPlayer player) {
@@ -209,7 +209,7 @@ public class TileModMaker extends TileEntity implements ITickable {
     }
 
     public void dropItemsFromInventory(){
-        ItemUtility.dropItemsFromInventory(world, pos, inventoryItemHandler);
+        ItemUtility.dropItemsFromInventory(getWorld(), getPos(), inventoryItemHandler);
     }
 
 }

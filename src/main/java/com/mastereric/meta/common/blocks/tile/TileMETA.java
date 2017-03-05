@@ -152,7 +152,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
     private boolean wasActive = false;
 
     public void update() {
-        if(!world.isRemote) {
+        if(!getWorld().isRemote) {
             tryConsumeMod();
 
             if (getTicksRemaining() > 0) {
@@ -164,9 +164,9 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
         }
         if (wasActive != isActive()) {
             LogUtility.info("Switching block state to %b", isActive());
-            world.markBlockRangeForRenderUpdate(pos, pos);
-            world.notifyNeighborsOfStateChange(pos, ModBlocks.blockMETA, true);
-            world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos).withProperty(BlockMETA.PROPERTY_ACTIVE, isActive()), 3);
+            getWorld().markBlockRangeForRenderUpdate(pos, pos);
+            getWorld().notifyNeighborsOfStateChange(pos, ModBlocks.blockMETA, true);
+            getWorld().markAndNotifyBlock(pos, getWorld().getChunkFromBlockCoords(pos), getWorld().getBlockState(pos), getWorld().getBlockState(pos).withProperty(BlockMETA.PROPERTY_ACTIVE, isActive()), 3);
         }
 
         wasActive = isActive();
@@ -177,7 +177,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
      * Don't rename this method to canInteractWith due to conflicts with Container
      */
     public boolean isUsableByPlayer(EntityPlayer player) {
-        return this.world.getTileEntity(this.pos) == this && player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+        return this.getWorld().getTileEntity(this.pos) == this && player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
     }
 
     public void openInventory(EntityPlayer player) {
@@ -244,7 +244,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
     }
 
     public void dropItemsFromInventory(){
-        ItemUtility.dropItemsFromInventory(world, pos, inventoryItemHandler);
+        ItemUtility.dropItemsFromInventory(getWorld(), getPos(), inventoryItemHandler);
     }
 
 }

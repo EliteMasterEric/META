@@ -2,8 +2,8 @@ package com.mastereric.meta;
 
 import com.mastereric.meta.init.ModBlocks;
 import com.mastereric.meta.init.ModItems;
-import com.mastereric.meta.init.ModRecipes;
 import com.mastereric.meta.proxy.CommonProxy;
+import com.mastereric.meta.util.LogUtility;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.FMLLog;
@@ -11,9 +11,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLMissingMappingsEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import scala.tools.nsc.backend.icode.TypeKinds;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod(modid = Reference.MOD_ID, version = Reference.MOD_VERSION, acceptedMinecraftVersions = Reference.MC_VERSION)
 public class META {
@@ -47,6 +48,28 @@ public class META {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		proxy.postInit(event);
+	}
+
+	@Mod.EventHandler
+	public void onMissingMapping(FMLMissingMappingsEvent event) {
+		LogUtility.info("Repairing missing mappings...");
+		for (FMLMissingMappingsEvent.MissingMapping mapping : event.get()) {
+			String resourcePath = mapping.resourceLocation.getResourcePath().toLowerCase();
+			if (mapping.type == GameRegistry.Type.BLOCK) {
+				if ("meta".equals(resourcePath) || "meta_inactive".equals(resourcePath) || "meta_active".equals(resourcePath)) {
+					mapping.remap(ModBlocks.blockMETA);
+				} else if ("mod_maker".equals(resourcePath)) {
+					mapping.remap(ModBlocks.blockModMaker);
+				}
+			} else if (mapping.type == GameRegistry.Type.ITEM) {
+				if ("mod".equals(resourcePath)) {
+					mapping.remap(ModItems.itemMod);
+				} else if ("mod_dumb".equals(resourcePath)) {
+					mapping.remap(ModItems.itemModDumb);
+				}
+			}
+		}
+
 	}
 
 	public static CreativeTabs creativeTab = new CreativeTabs(Reference.MOD_ID) {
