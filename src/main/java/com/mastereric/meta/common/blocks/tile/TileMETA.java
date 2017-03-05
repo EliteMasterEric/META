@@ -1,15 +1,11 @@
 package com.mastereric.meta.common.blocks.tile;
 
 import com.mastereric.meta.common.blocks.BlockMETA;
-import com.mastereric.meta.common.inventory.METAEnergyStorageHandler;
 import com.mastereric.meta.common.inventory.METAItemStackHandler;
-import com.mastereric.meta.common.inventory.ModMakerItemStackHandler;
-import com.mastereric.meta.common.items.ItemMod;
+import com.mastereric.meta.init.ModBlocks;
 import com.mastereric.meta.init.ModItems;
 import com.mastereric.meta.util.LangUtility;
 import com.mastereric.meta.util.LogUtility;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,7 +20,6 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
-import sun.rmi.runtime.Log;
 
 public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
     public static final int MAX_ENERGY_STORED = 80000; // A little over half of one mod's worth of energy.
@@ -169,7 +164,8 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
             if (wasActive != isActive()) {
                 if (world.isRemote) {
                     LogUtility.info("Switching block state to %b", isActive());
-                    world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos).withProperty(BlockMETA.PROPERTY_ACTIVE, isActive()), 3);
+                    world.notifyNeighborsOfStateChange(pos, ModBlocks.blockMETA, true);
+                    world.markAndNotifyBlock(pos, world.getChunkFromBlockCoords(pos), world.getBlockState(pos), world.getBlockState(pos).withProperty(BlockMETA.PROPERTY_ACTIVE, isActive()), 3);
                 }
             }
 

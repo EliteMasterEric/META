@@ -15,8 +15,6 @@ public class ModAchivements {
     public static Achievement useMod;
 
     public static void initializeAchievements() {
-        //TODO bugfix achievements
-
         createModMaker = createAchievement(Reference.NAME_ACHIEVEMENT_CREATE_MOD_MAKER, 0, 0, ModBlocks.itemBlockModMaker);
         createMod = createAchievement(Reference.NAME_ACHIEVEMENT_CREATE_MOD, 2, 0, ModItems.itemMod, createModMaker);
         createMETA = createAchievement(Reference.NAME_ACHIEVEMENT_CREATE_META, 4, 0, ModBlocks.itemBlockMETA, createMod);

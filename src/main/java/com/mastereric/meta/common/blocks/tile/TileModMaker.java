@@ -29,7 +29,6 @@ public class TileModMaker extends TileEntity implements ITickable {
     private int lastSpeedMultiplier = 0;
     private String customName = "";
 
-    //TODO add mod maker craft achievement trigger
     //TODO add JEI progress display
 
     @Override

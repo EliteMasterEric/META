@@ -1,3 +1,6 @@
 {
-    "parent": "meta:item/mod"
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "meta:items/mod_dumb"
+    }
 }
