@@ -5,12 +5,23 @@ import net.minecraft.util.ResourceLocation;
 
 public class Reference {
 	public static final String MOD_ID       = "meta";
-	public static final String MOD_VERSION  = "1.0";
+	public static final String MOD_VERSION  = "1.1.2";
 	public static final String MC_VERSION   = "[1.10.2, 1.11.2]";
+	public static final String DEPENDENCIES = "required-after:compatlayer-0.2.2";
 	public static final String CLIENT_PROXY = "com.mastereric.meta.proxy.ClientProxy";
 	public static final String SERVER_PROXY = "com.mastereric.meta.proxy.ServerProxy";
 
 	public static final String UPDATE_CHECK_JSON_URL = "https://gist.github.com/MasterEric/a6bc87090d91bf947bce92b588a98ecd";
+
+	public static final String MOD_FORGE = "forge";
+    public static final String MOD_FORGE_VERSION_MIN_10 = "12.18.3.2239";
+    public static final String MOD_FORGE_VERSION_MIN_11 = "13.19.0.2176";
+    public static final String MOD_COMPATLAYER = "compatlayer";
+    public static final String MOD_COMPATLAYER_VERSION_MIN = "0.2.2";
+    public static final String MOD_DEPENDENCIES =
+            "after:Forge@[" + MOD_FORGE_VERSION_MIN_10 + ",);" +
+            "after:forge@[" + MOD_FORGE_VERSION_MIN_11 + ",];" +
+            "required-after:compatlayer@[" + MOD_COMPATLAYER_VERSION_MIN +",)";
 
 	public static final String NAME_ITEM_MOD = "mod";
 	public static final String NAME_ITEM_MOD_DUMB = "mod_dumb";
