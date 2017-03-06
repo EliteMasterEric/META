@@ -5,7 +5,8 @@ import com.mastereric.meta.Reference;
 import com.mastereric.meta.client.particles.ParticleModMaker;
 import com.mastereric.meta.common.blocks.tile.TileModMaker;
 import com.mastereric.meta.init.ModBlocks;
-import net.minecraft.block.BlockContainer;
+import mcjty.lib.compat.CompatBlock;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -27,13 +28,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
-public class BlockModMaker extends BlockContainer {
+public class BlockModMaker extends CompatBlock implements ITileEntityProvider {
     public BlockModMaker() {
         super(Material.IRON);
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean clOnBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
             playerIn.openGui(META.instance, Reference.GUI_MOD_MAKER, worldIn, pos.getX(), pos.getY(), pos.getZ());
         }

@@ -4,8 +4,8 @@ import com.mastereric.meta.init.ModBlocks;
 import com.mastereric.meta.init.ModItems;
 import com.mastereric.meta.proxy.CommonProxy;
 import com.mastereric.meta.util.LogUtility;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemStack;
+import mcjty.lib.compat.CompatCreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -16,7 +16,8 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid = Reference.MOD_ID, version = Reference.MOD_VERSION, acceptedMinecraftVersions = Reference.MC_VERSION)
+@Mod(modid = Reference.MOD_ID, version = Reference.MOD_VERSION, acceptedMinecraftVersions = Reference.MC_VERSION,
+        updateJSON = Reference.UPDATE_CHECK_JSON_URL)
 public class META {
 
 	@Mod.Instance(Reference.MOD_ID)
@@ -72,10 +73,10 @@ public class META {
 
 	}
 
-	public static CreativeTabs creativeTab = new CreativeTabs(Reference.MOD_ID) {
+	public static CompatCreativeTabs creativeTab = new CompatCreativeTabs(Reference.MOD_ID) {
 		@Override
-		public ItemStack getTabIconItem() {
-			return new ItemStack(ModItems.itemMod);
+		protected Item getItem() {
+			return ModItems.itemMod;
 		}
 	};
     

@@ -1,12 +1,14 @@
 package com.mastereric.meta.common.blocks.tile;
 
 import com.mastereric.meta.common.blocks.BlockMETA;
-import com.mastereric.meta.common.inventory.METAItemStackHandler;
+import com.mastereric.meta.common.inventory.CompatItemStackHandler;
 import com.mastereric.meta.init.ModBlocks;
 import com.mastereric.meta.init.ModItems;
 import com.mastereric.meta.util.ItemUtility;
 import com.mastereric.meta.util.LangUtility;
 import com.mastereric.meta.util.LogUtility;
+import mcjty.lib.tools.ItemStackTools;
+import mcjty.lib.tools.WorldTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,7 +30,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
     public static final int FE_PER_TICK = 60; // 50% higher than an Extra Utilities furnace generator.
     public static final int TICKS_PER_MOD = FE_PER_MOD / FE_PER_TICK; // 2500 ticks per mod.
 
-    private METAItemStackHandler inventoryItemHandler = new METAItemStackHandler(1);
+    private CompatItemStackHandler inventoryItemHandler = new CompatItemStackHandler(1);
     private int currentRemainingTicks;
     private String customName;
 
@@ -139,12 +141,13 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
 
     private void tryConsumeMod() {
         if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-            if(inventoryItemHandler.getStackInSlot(0).getItem().equals(ModItems.itemMod)
-                    && getTicksRemaining() == 0) {
-                LogUtility.infoSided("Consuming mod in META...");
-                currentRemainingTicks = TICKS_PER_MOD;
-                inventoryItemHandler.setStackInSlot(0, ItemStack.EMPTY);
-                markDirty();
+            if (!ItemStackTools.isEmpty(inventoryItemHandler.getStackInSlot(0))) {
+                if (inventoryItemHandler.getStackInSlot(0).getItem().equals(ModItems.itemMod) && getTicksRemaining() == 0) {
+                    LogUtility.infoSided("Consuming mod in META...");
+                    currentRemainingTicks = TICKS_PER_MOD;
+                    inventoryItemHandler.setStackInSlot(0, ItemStackTools.getEmptyStack());
+                    markDirty();
+                }
             }
         }
     }
@@ -165,7 +168,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
         if (wasActive != isActive()) {
             LogUtility.info("Switching block state to %b", isActive());
             getWorld().markBlockRangeForRenderUpdate(pos, pos);
-            getWorld().notifyNeighborsOfStateChange(pos, ModBlocks.blockMETA, true);
+            WorldTools.notifyNeighborsOfStateChange(getWorld(), pos, ModBlocks.blockMETA);
             getWorld().markAndNotifyBlock(pos, getWorld().getChunkFromBlockCoords(pos), getWorld().getBlockState(pos), getWorld().getBlockState(pos).withProperty(BlockMETA.PROPERTY_ACTIVE, isActive()), 3);
         }
 

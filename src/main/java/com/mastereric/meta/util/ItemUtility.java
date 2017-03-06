@@ -1,16 +1,18 @@
 package com.mastereric.meta.util;
 
+import mcjty.lib.compat.CompatItemHandler;
+import mcjty.lib.tools.ItemStackTools;
+import mcjty.lib.tools.WorldTools;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.items.ItemStackHandler;
 
 public class ItemUtility {
-    public static void dropItemsFromInventory(World world, BlockPos pos, ItemStackHandler inventoryItemHandler){
+    public static void dropItemsFromInventory(World world, BlockPos pos, CompatItemHandler inventoryItemHandler){
         for (int i = 0; i < inventoryItemHandler.getSlots(); i++) {
             ItemStack stack = inventoryItemHandler.getStackInSlot(i);
-            if(!stack.isEmpty() && stack.getCount() != 0){
+            if(!ItemStackTools.isEmpty(stack) && ItemStackTools.getStackSize(stack) != 0){
                 float dX = world.rand.nextFloat()*0.8F+0.1F;
                 float dY = world.rand.nextFloat()*0.8F+0.1F;
                 float dZ = world.rand.nextFloat()*0.8F+0.1F;
@@ -19,7 +21,7 @@ public class ItemUtility {
                 entityItem.motionX = world.rand.nextGaussian()*factor;
                 entityItem.motionY = world.rand.nextGaussian()*factor+0.2F;
                 entityItem.motionZ = world.rand.nextGaussian()*factor;
-                world.spawnEntity(entityItem);
+                WorldTools.spawnEntity(world, entityItem);
             }
         }
     }

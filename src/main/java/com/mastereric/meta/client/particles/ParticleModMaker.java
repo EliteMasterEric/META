@@ -1,11 +1,15 @@
 package com.mastereric.meta.client.particles;
 
 import com.mastereric.meta.Reference;
+import com.mastereric.meta.util.LogUtility;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.lang.reflect.Method;
 
 @SideOnly(Side.CLIENT)
 public class ParticleModMaker extends Particle {
@@ -42,10 +46,31 @@ public class ParticleModMaker extends Particle {
         this.setParticleTexture(sprite);
     }
 
-    public void move(double x, double y, double z)
-    {
-        this.setBoundingBox(this.getBoundingBox().offset(x, y, z));
-        this.resetPositionToBB();
+    public void moveParticle(double x, double y, double z) {
+        // TODO The creation of this method was the eighth deadly sin destroy it as soon as McJty creates CompatParticle.
+        // Thanks to TehNut's Version Proxy for helping me figure out how to do this.
+        try {
+            final Method getBox;
+            final Method setBox;
+            // The mappings have a breaking change from setEntityBoundingBox
+            // to setBoundingBox, but their implementation and their obfuscated
+            // names are the same.
+            final String getName = "func_187116_l";
+            final String setName = "func_187108_a";
+            getBox = Particle.class.getMethod(getName);
+            getBox.setAccessible(true);
+            setBox = Particle.class.getMethod(setName);
+            setBox.setAccessible(true);
+            setBox.invoke(this, ((AxisAlignedBB) getBox.invoke(this)).offset(x, y, z));
+            this.resetPositionToBB();
+        } catch (Exception e) {
+            LogUtility.error("ERROR: Exception when calling moveParticle()");
+            LogUtility.error(e.toString());
+        }
+    }
+
+    public void move(double x, double y, double z) {
+        moveParticle(x, y, z);
     }
 
     public int getBrightnessForRender(float p_189214_1_)

@@ -3,6 +3,7 @@ package com.mastereric.meta.common.blocks.container;
 import com.mastereric.meta.common.blocks.tile.TileModMaker;
 import com.mastereric.meta.common.inventory.SlotInventoryModMaker;
 import com.mastereric.meta.util.LogUtility;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -99,7 +100,7 @@ public class ContainerModMaker extends Container {
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int sourceSlotIndex) {
         Slot sourceSlot = inventorySlots.get(sourceSlotIndex);
         if (sourceSlot == null || !sourceSlot.getHasStack()) {
-            return ItemStack.EMPTY;
+            return ItemStackTools.getEmptyStack();
         }
         ItemStack sourceStack = sourceSlot.getStack();
         ItemStack sourceStackCopy = sourceStack.copy();
@@ -107,12 +108,12 @@ public class ContainerModMaker extends Container {
         if (PLAYER_FIRST_SLOT_INDEX <= sourceSlotIndex && sourceSlotIndex < PLAYER_FIRST_SLOT_INDEX + PLAYER_SLOT_COUNT) {
             // The source slot was in the player's inventory.
             // Do nothing.
-            return ItemStack.EMPTY;
+            return ItemStackTools.getEmptyStack();
         } else if (sourceSlotIndex == MOD_MAKER_FIRST_SLOT_INDEX) {
             // The source slot was in the Mod Maker's inventory.
             // Put the item into the player's inventory.
             if (!mergeItemStack(sourceStack, PLAYER_FIRST_SLOT_INDEX, PLAYER_FIRST_SLOT_INDEX + PLAYER_SLOT_COUNT, false)) {
-                return ItemStack.EMPTY;  //EMPTY_ITEM;
+                return ItemStackTools.getEmptyStack();  //EMPTY_ITEM;
             }
         } else {
             // Invalid. Error!
@@ -120,14 +121,14 @@ public class ContainerModMaker extends Container {
         }
 
         // If the stack is empty now...
-        if (sourceStack.isEmpty() || sourceStack.getCount() == 0) {  //getStackSize()
+        if (ItemStackTools.isEmpty(sourceStack) || ItemStackTools.getStackSize(sourceStack) == 0) {  //getStackSize()
             // Set the slot in the source container.
-            sourceSlot.putStack(ItemStack.EMPTY);
+            sourceSlot.putStack(ItemStackTools.getEmptyStack());
         } else {
             // Else, flag the stack as changed.
             sourceSlot.onSlotChanged();
         }
 
-        return ItemStack.EMPTY;
+        return ItemStackTools.getEmptyStack();
     }
 }

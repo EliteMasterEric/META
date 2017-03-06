@@ -6,8 +6,9 @@ import com.mastereric.meta.client.particles.ParticleMETAFlame;
 import com.mastereric.meta.common.blocks.tile.TileMETA;
 import com.mastereric.meta.common.blocks.tile.TileModMaker;
 import com.mastereric.meta.init.ModBlocks;
-import net.minecraft.block.BlockContainer;
+import mcjty.lib.compat.CompatBlock;
 import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -34,7 +35,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockMETA extends BlockContainer {
+public class BlockMETA extends CompatBlock implements ITileEntityProvider {
     public static final PropertyDirection direction = BlockHorizontal.FACING;
 
     public BlockMETA() {
@@ -44,7 +45,7 @@ public class BlockMETA extends BlockContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean clOnBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!worldIn.isRemote) {
             playerIn.openGui(META.instance, Reference.GUI_META, worldIn, pos.getX(), pos.getY(), pos.getZ());
         }
@@ -224,7 +225,7 @@ public class BlockMETA extends BlockContainer {
     }
 
     @Override
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+    public IBlockState clGetStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
         return this.getDefaultState().withProperty(PROPERTY_FACING, placer.getHorizontalFacing().getOpposite()).withProperty(PROPERTY_ACTIVE, false);
     }
 

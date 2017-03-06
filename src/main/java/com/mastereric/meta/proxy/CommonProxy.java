@@ -7,7 +7,6 @@ import com.mastereric.meta.init.*;
 import com.mastereric.meta.util.LogUtility;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -39,5 +38,7 @@ public class CommonProxy {
 
 	public void postInit(FMLPostInitializationEvent e) {
 		ModConfig.saveConfig();
+		// Initialize compatibility!
+		ModCompat.initializeCompat();
 	}
 }

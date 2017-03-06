@@ -4,6 +4,7 @@ import com.mastereric.meta.common.blocks.tile.TileMETA;
 import com.mastereric.meta.common.inventory.SlotInventoryMETA;
 import com.mastereric.meta.init.ModItems;
 import com.mastereric.meta.util.LogUtility;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -133,7 +134,7 @@ public class ContainerMETA extends Container {
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int sourceSlotIndex) {
         Slot sourceSlot = inventorySlots.get(sourceSlotIndex);
         if (sourceSlot == null || !sourceSlot.getHasStack()) {
-            return ItemStack.EMPTY;
+            return ItemStackTools.getEmptyStack();
         }
         ItemStack sourceStack = sourceSlot.getStack();
         ItemStack sourceStackCopy = sourceStack.copy();
@@ -143,17 +144,17 @@ public class ContainerMETA extends Container {
             if(sourceStack.getItem().equals(ModItems.itemMod)) {
                 if (!mergeItemStack(sourceStack, META_FIRST_SLOT_INDEX, META_FIRST_SLOT_INDEX + 1, false)) {
                     // No room in M.E.T.A., stop trying to move stuff.
-                    return ItemStack.EMPTY;  //EMPTY_ITEM;
+                    return ItemStackTools.getEmptyStack();  //EMPTY_ITEM;
                 }
             } else {
-                return ItemStack.EMPTY;
+                return ItemStackTools.getEmptyStack();
             }
         } else if (sourceSlotIndex == META_FIRST_SLOT_INDEX) {
             // The source slot was in the Mod Maker's inventory.
             // Put the item into the player's inventory.
             if (!mergeItemStack(sourceStack, PLAYER_FIRST_SLOT_INDEX, PLAYER_FIRST_SLOT_INDEX + PLAYER_SLOT_COUNT, false)) {
                 // No room in player's inventory, stop trying to move stuff.
-                return ItemStack.EMPTY;  //EMPTY_ITEM;
+                return ItemStackTools.getEmptyStack();  //EMPTY_ITEM;
             }
         } else {
             // Invalid. Error!
@@ -161,14 +162,14 @@ public class ContainerMETA extends Container {
         }
 
         // Succeeded in moving something. If the stack is now empty...
-        if (sourceStack.isEmpty() || sourceStack.getCount() == 0) {  //getStackSize()
+        if (ItemStackTools.isEmpty(sourceStack) || ItemStackTools.getStackSize(sourceStack) == 0) {  //getStackSize()
             // Set it to empty.
-            sourceSlot.putStack(ItemStack.EMPTY);
+            sourceSlot.putStack(ItemStackTools.getEmptyStack());
         } else {
             // Else, flag the stack as changed so the GUI can update.
             sourceSlot.onSlotChanged();
         }
 
-        return ItemStack.EMPTY;
+        return ItemStackTools.getEmptyStack();
     }
 }

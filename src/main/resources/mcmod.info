@@ -11,6 +11,6 @@
   "credits": "Thanks to the Minecraft Mod Development Discord for the help, tips, and advice!",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": []
+  "dependencies": ["commoncapabilities"]
 }
 ]

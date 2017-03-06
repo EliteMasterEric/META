@@ -1,12 +1,13 @@
 package com.mastereric.meta.common.blocks.tile;
 
-import com.mastereric.meta.common.inventory.ModMakerItemStackHandler;
+import com.mastereric.meta.common.inventory.CompatItemStackHandler;
 import com.mastereric.meta.common.items.ItemMod;
 import com.mastereric.meta.init.ModConfig;
 import com.mastereric.meta.init.ModItems;
 import com.mastereric.meta.util.ItemUtility;
 import com.mastereric.meta.util.LangUtility;
 import com.mastereric.meta.util.LogUtility;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,7 +25,7 @@ public class TileModMaker extends TileEntity implements ITickable {
     // The number of ticks for one mod to be created.
     public static final int DEFAULT_WAIT_TIME = 1800;
 
-    private ModMakerItemStackHandler inventoryItemHandler = new ModMakerItemStackHandler(1);
+    private CompatItemStackHandler inventoryItemHandler = new CompatItemStackHandler(1);
     // Current wait time in ticks.
     private int modMakerCurrentWaitTime = DEFAULT_WAIT_TIME;
     private int lastSpeedMultiplier = 0;
@@ -129,7 +130,7 @@ public class TileModMaker extends TileEntity implements ITickable {
     }
 
     public boolean isActive() {
-        return modMakerCurrentWaitTime > 0 && inventoryItemHandler.getStackInSlot(0).isEmpty() && getLastSpeedMultiplier() != 0;
+        return modMakerCurrentWaitTime > 0 && ItemStackTools.isEmpty(inventoryItemHandler.getStackInSlot(0)) && getLastSpeedMultiplier() != 0;
     }
 
     private void createMod() {
@@ -169,7 +170,7 @@ public class TileModMaker extends TileEntity implements ITickable {
                 modMakerCurrentWaitTime = 0;
             else
                 modMakerCurrentWaitTime -= lastSpeedMultiplier;
-        } else if (modMakerCurrentWaitTime == 0 && inventoryItemHandler.getStackInSlot(0).isEmpty()) {
+        } else if (modMakerCurrentWaitTime == 0 && ItemStackTools.isEmpty(inventoryItemHandler.getStackInSlot(0))) {
             createMod();
             modMakerCurrentWaitTime = DEFAULT_WAIT_TIME;
         }
@@ -198,7 +199,7 @@ public class TileModMaker extends TileEntity implements ITickable {
 
     public int getTicksRemaining() {
         //LogUtility.infoSided("TicksRemaining: %d", modMakerCurrentWaitTime);
-        if (inventoryItemHandler.getStackInSlot(0).isEmpty())
+        if (ItemStackTools.isEmpty(inventoryItemHandler.getStackInSlot(0)))
             return modMakerCurrentWaitTime;
         return 0;
     }

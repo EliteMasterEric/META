@@ -6,9 +6,11 @@ import net.minecraft.util.ResourceLocation;
 public class Reference {
 	public static final String MOD_ID       = "meta";
 	public static final String MOD_VERSION  = "1.0";
-	public static final String MC_VERSION   = "[1.11.2]";
+	public static final String MC_VERSION   = "[1.10.2, 1.11.2]";
 	public static final String CLIENT_PROXY = "com.mastereric.meta.proxy.ClientProxy";
 	public static final String SERVER_PROXY = "com.mastereric.meta.proxy.ServerProxy";
+
+	public static final String UPDATE_CHECK_JSON_URL = "https://gist.github.com/MasterEric/a6bc87090d91bf947bce92b588a98ecd";
 
 	public static final String NAME_ITEM_MOD = "mod";
 	public static final String NAME_ITEM_MOD_DUMB = "mod_dumb";
