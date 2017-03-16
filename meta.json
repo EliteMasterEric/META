@@ -1,0 +1,22 @@
+{ 
+        "homepage": "https://minecraft.curseforge.com/projects/m-e-t-a", 
+        "promos": { 
+                "1.11.2-latest": "1.1.3", 
+                "1.11.2-recommended": "1.1.3", 
+                "1.10.2-latest": "1.1.3", 
+                "1.10.2-recommended": "1.1.3",
+        }, 
+        "1.11.2": { 
+                "1.1.3": "Minor crash fix to resolve a config crash.",
+                "1.1.2": "Fixed dependencies such that Forge provides a warning instead of crashing due to missing dependencies.",
+                "1.1.1": "Incremented version number.",
+                "1.1.0": "Added CompatLayer, creating a version compatible with 1.9 and 1.10.",
+                "1.0.0": "Initial release."
+        }, 
+        "1.10.2": {
+                "1.1.3": "Minor crash fix to resolve a config crash.",
+                "1.1.2": "Fixed dependencies such that Forge provides a warning instead of crashing due to missing dependencies.",
+                "1.1.1": "Incremented version number.",
+                "1.1.0": "Added CompatLayer, creating a version compatible with 1.9 and 1.10."
+        }
+} 

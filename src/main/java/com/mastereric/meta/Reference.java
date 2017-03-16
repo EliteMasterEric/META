@@ -5,13 +5,13 @@ import net.minecraft.util.ResourceLocation;
 
 public class Reference {
     public static final String MOD_ID       = "meta";
-    public static final String MOD_VERSION  = "1.2.0";
+    public static final String MOD_VERSION  = "1.1.0";
     public static final String MC_VERSION   = "[1.10.2, 1.11.2]";
     public static final String CLIENT_PROXY = "com.mastereric.meta.proxy.ClientProxy";
     public static final String SERVER_PROXY = "com.mastereric.meta.proxy.ServerProxy";
     public static final String GUI_FACTORY  = "com.mastereric.meta.common.gui.METAGuiFactory";
 
-    public static final String UPDATE_CHECK_JSON_URL = "https://gist.github.com/MasterEric/a6bc87090d91bf947bce92b588a98ecd";
+    public static final String UPDATE_CHECK_JSON_URL = "https://gist.githubusercontent.com/MasterEric/a6bc87090d91bf947bce92b588a98ecd/raw/492d52918c94c51280c5a352b699a0fa0b4813a6/meta.json";
 
     public static final String MOD_FORGE_VERSION_MIN_10 = "12.18.3.2239";
     public static final String MOD_FORGE_VERSION_MIN_11 = "13.19.0.2176";

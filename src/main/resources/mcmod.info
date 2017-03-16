@@ -6,7 +6,7 @@
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "https://minecraft.curseforge.com/projects/m-e-t-a",
-  "updateUrl": "https://gist.githubusercontent.com/MasterEric/a6bc87090d91bf947bce92b588a98ecd/raw/492d52918c94c51280c5a352b699a0fa0b4813a6/meta.json",
+  "updateUrl": "",
   "authorList": ["EliteMasterEric"],
   "credits": "Thanks to the Minecraft Mod Development Discord for the help, tips, and advice!",
   "logoFile": "/assets/meta/logo.png",
