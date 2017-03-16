@@ -3,7 +3,7 @@ package com.mastereric.meta.init;
 import com.mastereric.meta.util.LogUtility;
 import net.minecraftforge.fml.common.Loader;
 
-public class ModCompat {
+public final class ModCompat {
     public static String MC_VERSION;
 
     public static boolean COMMON_CAPABILITIES = false;

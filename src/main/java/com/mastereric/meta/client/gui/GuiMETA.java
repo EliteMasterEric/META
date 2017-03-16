@@ -3,6 +3,7 @@ package com.mastereric.meta.client.gui;
 import com.mastereric.meta.Reference;
 import com.mastereric.meta.common.blocks.container.ContainerMETA;
 import com.mastereric.meta.common.blocks.tile.TileMETA;
+import com.mastereric.meta.init.ModConfig;
 import com.mastereric.meta.util.LangUtility;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -42,7 +43,7 @@ public class GuiMETA extends GuiContainer {
     }
 
     private int getTicksRemainingScaled(int progressIndicatorPixelHeight) {
-        double percent = (getTicksRemaining() / (double) TileMETA.TICKS_PER_MOD);
+        double percent = (getTicksRemaining() / (double) inventoryMETA.TICKS_PER_MOD);
         int value = (int) Math.floor(percent * progressIndicatorPixelHeight);
         return value;
     }
@@ -52,7 +53,7 @@ public class GuiMETA extends GuiContainer {
     }
 
     private int getCurrentEnergyScaled(int energyGaugeHeight) {
-        return (int) Math.floor(getCurrentEnergy() / (double) TileMETA.MAX_ENERGY_STORED * energyGaugeHeight);
+        return (int) Math.floor(getCurrentEnergy() / (double) ModConfig.META_MAX_ENERGY_STORED * energyGaugeHeight);
     }
 
     @Override
@@ -82,11 +83,10 @@ public class GuiMETA extends GuiContainer {
             this.drawTexturedModalRect(xPos + ENERGY_X, yPos + ENERGY_Y - energy, METER_TEXTURE_X, ENERGY_HEIGHT - energy + PROGRESS_HEIGHT, ENERGY_WIDTH, energy);
         }
 
-
         // If hovering over energy bar...
         if (this.isPointInRegion(ENERGY_X, ENERGY_Y - ENERGY_HEIGHT, ENERGY_WIDTH, ENERGY_HEIGHT, mouseX, mouseY)) {
             List<String> hoverText = new ArrayList<String>();
-            hoverText.add(LangUtility.getTranslationFormat(Reference.NAME_LANG_META_STORAGE, (int) getCurrentEnergy(), TileMETA.MAX_ENERGY_STORED));
+            hoverText.add(LangUtility.getTranslationFormat(Reference.NAME_LANG_META_STORAGE, (int) getCurrentEnergy(), ModConfig.META_MAX_ENERGY_STORED));
             this.drawHoveringText(hoverText, mouseX, mouseY);
         }
     }

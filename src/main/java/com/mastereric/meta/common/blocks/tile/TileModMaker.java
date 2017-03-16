@@ -22,17 +22,18 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 public class TileModMaker extends TileEntity implements ITickable {
-    // The number of ticks for one mod to be created.
-    public static final int DEFAULT_WAIT_TIME = 1800;
-
     private CompatItemStackHandler inventoryItemHandler = new CompatItemStackHandler(1);
     // Current wait time in ticks.
-    private int modMakerCurrentWaitTime = DEFAULT_WAIT_TIME;
+    private int modMakerCurrentWaitTime;
     private int lastSpeedMultiplier = 0;
     private String customName = "";
 
-    //TODO add JEI progress display
+    //TODO add JEI progress displau
 
+    public TileModMaker() {
+        super();
+        modMakerCurrentWaitTime = ModConfig.MOD_MAKER_WAIT_TIME;
+    }
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
         //TODO add CommonCapabilites working to Mod Maker
@@ -172,7 +173,7 @@ public class TileModMaker extends TileEntity implements ITickable {
                 modMakerCurrentWaitTime -= lastSpeedMultiplier;
         } else if (modMakerCurrentWaitTime == 0 && ItemStackTools.isEmpty(inventoryItemHandler.getStackInSlot(0))) {
             createMod();
-            modMakerCurrentWaitTime = DEFAULT_WAIT_TIME;
+            modMakerCurrentWaitTime = ModConfig.MOD_MAKER_WAIT_TIME;
         }
     }
 
@@ -181,20 +182,6 @@ public class TileModMaker extends TileEntity implements ITickable {
      */
     public boolean isUsableByPlayer(EntityPlayer player) {
         return this.getWorld().getTileEntity(this.pos) == this && player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
-    }
-
-    public void openInventory(EntityPlayer player) {
-    }
-
-    public void closeInventory(EntityPlayer player) {
-    }
-
-    /**
-     * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot. For
-     * guis use Slot.isItemValid
-     */
-    public boolean isItemValidForSlot(int index, ItemStack stack) {
-        return false;
     }
 
     public int getTicksRemaining() {

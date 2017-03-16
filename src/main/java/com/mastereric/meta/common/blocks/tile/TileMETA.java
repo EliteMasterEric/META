@@ -3,6 +3,7 @@ package com.mastereric.meta.common.blocks.tile;
 import com.mastereric.meta.common.blocks.BlockMETA;
 import com.mastereric.meta.common.inventory.CompatItemStackHandler;
 import com.mastereric.meta.init.ModBlocks;
+import com.mastereric.meta.init.ModConfig;
 import com.mastereric.meta.init.ModItems;
 import com.mastereric.meta.util.ItemUtility;
 import com.mastereric.meta.util.LangUtility;
@@ -25,10 +26,8 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
-    public static final int MAX_ENERGY_STORED = 80000; // A little over half of one mod's worth of energy.
-    public static final int FE_PER_MOD = 150000; // A little under 1 coal block of power.
-    public static final int FE_PER_TICK = 60; // 50% higher than an Extra Utilities furnace generator.
-    public static final int TICKS_PER_MOD = FE_PER_MOD / FE_PER_TICK; // 2500 ticks per mod.
+
+    public final int TICKS_PER_MOD; // 2500 ticks per mod.
 
     private CompatItemStackHandler inventoryItemHandler = new CompatItemStackHandler(1);
     private int currentRemainingTicks;
@@ -39,6 +38,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
     public TileMETA() {
         currentRemainingTicks = 0;
         customName = "";
+        TICKS_PER_MOD = ModConfig.META_FE_PER_MOD / ModConfig.META_FE_PER_TICK;
     }
 
     // TODO add JEI energy display
@@ -136,7 +136,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
 
     public boolean isActive() {
         // Whether the M.E.T.A. is active for external visual purposes.
-        return getTicksRemaining() > 0 && currentEnergyStorage < MAX_ENERGY_STORED;
+        return getTicksRemaining() > 0 && currentEnergyStorage < ModConfig.META_MAX_ENERGY_STORED;
     }
 
     private void tryConsumeMod() {
@@ -159,9 +159,9 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
             tryConsumeMod();
 
             if (getTicksRemaining() > 0) {
-                if(currentEnergyStorage < MAX_ENERGY_STORED) {
+                if(currentEnergyStorage < ModConfig.META_MAX_ENERGY_STORED) {
                     currentRemainingTicks--;
-                    currentEnergyStorage = (Math.min(currentEnergyStorage + FE_PER_TICK, MAX_ENERGY_STORED));
+                    currentEnergyStorage = (Math.min(currentEnergyStorage + ModConfig.META_FE_PER_TICK, ModConfig.META_MAX_ENERGY_STORED));
                 }
             }
         }
@@ -225,7 +225,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
     }
     @Override
     public int getMaxEnergyStored() {
-        return MAX_ENERGY_STORED;
+        return ModConfig.META_MAX_ENERGY_STORED;
     }
     @Override
     public boolean canExtract() {

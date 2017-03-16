@@ -17,7 +17,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod(modid = Reference.MOD_ID, version = Reference.MOD_VERSION, acceptedMinecraftVersions = Reference.MC_VERSION,
-        updateJSON = Reference.UPDATE_CHECK_JSON_URL, dependencies = Reference.MOD_DEPENDENCIES)
+        updateJSON = Reference.UPDATE_CHECK_JSON_URL, dependencies = Reference.MOD_DEPENDENCIES,
+		guiFactory = Reference.GUI_FACTORY)
 public class META {
 
 	@Mod.Instance(Reference.MOD_ID)

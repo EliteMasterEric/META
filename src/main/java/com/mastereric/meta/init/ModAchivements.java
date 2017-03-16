@@ -7,7 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
 
-public class ModAchivements {
+public final class ModAchivements {
     public static Achievement createModMaker;
     public static Achievement createMod;
     public static Achievement createMETA;

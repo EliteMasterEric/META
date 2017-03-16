@@ -1,6 +1,10 @@
 #PARSE_ESCAPES
 itemGroup.meta=M.E.T.A.
 
+config.meta.general=General
+config.meta.mod_maker=Mod Maker
+config.meta.meta=M.E.T.A.
+
 container.meta.mod_maker=Mod Maker
 container.meta.meta=M.E.T.A.
 

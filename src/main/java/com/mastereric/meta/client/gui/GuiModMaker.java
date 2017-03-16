@@ -3,6 +3,7 @@ package com.mastereric.meta.client.gui;
 import com.mastereric.meta.Reference;
 import com.mastereric.meta.common.blocks.container.ContainerModMaker;
 import com.mastereric.meta.common.blocks.tile.TileModMaker;
+import com.mastereric.meta.init.ModConfig;
 import com.mastereric.meta.util.LangUtility;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -34,9 +35,9 @@ public class GuiModMaker extends GuiContainer {
         double ticksRemaining = inventoryModMaker.getTicksRemaining();
         if (ticksRemaining == 0)
             return 100;
-        if (ticksRemaining == TileModMaker.DEFAULT_WAIT_TIME)
+        if (ticksRemaining == ModConfig.MOD_MAKER_WAIT_TIME)
             return 0;
-        return (TileModMaker.DEFAULT_WAIT_TIME - ticksRemaining)/TileModMaker.DEFAULT_WAIT_TIME;
+        return (ModConfig.MOD_MAKER_WAIT_TIME - ticksRemaining)/ModConfig.MOD_MAKER_WAIT_TIME;
     }
 
     private int getProgressScaled(int progressIndicatorPixelHeight) {

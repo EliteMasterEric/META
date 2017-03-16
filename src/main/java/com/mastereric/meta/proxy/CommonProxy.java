@@ -33,11 +33,11 @@ public class CommonProxy {
 	public void init(FMLInitializationEvent event) {
 	    // Register GUI handler.
 		NetworkRegistry.INSTANCE.registerGuiHandler(META.instance, new GuiHandler());
+		MinecraftForge.EVENT_BUS.register(new ModConfig());
 		MinecraftForge.EVENT_BUS.register(new AchievementHandler());
 	}
 
 	public void postInit(FMLPostInitializationEvent e) {
-		ModConfig.saveConfig();
 		// Initialize compatibility!
 		ModCompat.initializeCompat();
 	}
