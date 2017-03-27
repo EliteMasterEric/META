@@ -44,6 +44,10 @@ public final class ModConfig {
     private static String MOD_MAKER_WAIT_TIME_NAME = "mod_maker_wait_time";
     private static String MOD_MAKER_WAIT_TIME_DESC = "The amount of time it takes to create one mod, with a single bookshelf.";
 
+    public static int META_OUTPUT = 100; // 100 fe/t
+    private static String META_OUTPUT_NAME = "meta_output";
+    private static String META_OUTPUT_DESC = "The FE per tick the META is capable of pushing from its storage.";
+
     public static void parseConfig() {
         if (config != null) {
             try {
@@ -58,6 +62,7 @@ public final class ModConfig {
                     META_FE_PER_MOD = config.getInt(META_FE_PER_MOD_NAME, CATEGORY_META, META_FE_PER_MOD, 0, Integer.MAX_VALUE, META_FE_PER_MOD_DESC);
                     META_FE_PER_TICK = config.getInt(META_FE_PER_TICK_NAME, CATEGORY_META, META_FE_PER_TICK, 0, Integer.MAX_VALUE, META_FE_PER_TICK_DESC);
                     META_MAX_ENERGY_STORED = config.getInt(META_MAX_ENERGY_STORED_NAME, CATEGORY_META, META_MAX_ENERGY_STORED, 0, Integer.MAX_VALUE, META_MAX_ENERGY_STORED_DESC);
+                    META_OUTPUT = config.getInt(META_OUTPUT_NAME, CATEGORY_META, META_OUTPUT, 0, Integer.MAX_VALUE, META_OUTPUT_DESC);
 
                     MOD_MAKER_WAIT_TIME = config.getInt(MOD_MAKER_WAIT_TIME_NAME, CATEGORY_MOD_MAKER, MOD_MAKER_WAIT_TIME, 0, Integer.MAX_VALUE, MOD_MAKER_WAIT_TIME_DESC);
 

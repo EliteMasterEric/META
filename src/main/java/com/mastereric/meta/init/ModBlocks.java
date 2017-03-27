@@ -35,6 +35,15 @@ public final class ModBlocks {
         itemBlockMETA = new ItemBlockDesc(blockMETA);
         registerBlock(blockMETA, Reference.NAME_BLOCK_META, itemBlockMETA);
         registerTileEntity(TileMETA.class, Reference.NAME_BLOCK_META);
+
+        LogUtility.infoSided("RegistryTest");
+        if (Item.REGISTRY != null) {
+            LogUtility.infoSided("REGISTRY NOT NULL");
+            if (Item.REGISTRY.getNameForObject(itemBlockModMaker) != null) {
+                LogUtility.infoSided("REGISTRY says: %s", Item.REGISTRY.getNameForObject(itemBlockModMaker));
+            }
+        }
+        LogUtility.infoSided("DoneTest");
     }
 
     @SideOnly(Side.CLIENT)
@@ -60,9 +69,11 @@ public final class ModBlocks {
         // Set the registry name.
         block.setRegistryName(Reference.MOD_ID, registryName);
         block.setUnlocalizedName(Reference.MOD_ID + "." + registryName);
+        itemBlock.setRegistryName(block.getRegistryName());
+        itemBlock.setUnlocalizedName(Reference.MOD_ID + "." + registryName);
         // Add to the game registry.
         GameRegistry.register(block);
-        GameRegistry.register(itemBlock, block.getRegistryName());
+        GameRegistry.register(itemBlock);
 
         if (inCreativeTab)
             block.setCreativeTab(META.creativeTab);

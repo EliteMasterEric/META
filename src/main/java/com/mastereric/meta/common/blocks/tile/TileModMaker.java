@@ -28,7 +28,7 @@ public class TileModMaker extends TileEntity implements ITickable {
     private int lastSpeedMultiplier = 0;
     private String customName = "";
 
-    //TODO add JEI progress displau
+    //TODO add JEI progress display
 
     public TileModMaker() {
         super();

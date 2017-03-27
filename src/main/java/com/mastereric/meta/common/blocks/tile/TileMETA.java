@@ -47,18 +47,16 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
         //TODO add CommonCapabilites wrench to META
         //TODO add CommonCapabilites working to META
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY
-                || capability == CapabilityEnergy.ENERGY
-                || super.hasCapability(capability, facing);
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityEnergy.ENERGY || super.hasCapability(capability, facing);
     }
 
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-            return  CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(inventoryItemHandler);
+            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(inventoryItemHandler);
         if (capability == CapabilityEnergy.ENERGY)
-            return  CapabilityEnergy.ENERGY.cast(this);
+            return CapabilityEnergy.ENERGY.cast(this);
 
         return super.getCapability(capability, facing);
     }
@@ -72,7 +70,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
     @SuppressWarnings("MethodCallSideOnly")
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
         super.onDataPacket(net, pkt);
-        if(net.getDirection() == EnumPacketDirection.CLIENTBOUND) {
+        if (net.getDirection() == EnumPacketDirection.CLIENTBOUND) {
             readFromNBT(pkt.getNbtCompound());
             markDirty();
         }
@@ -101,8 +99,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
     public String getName() {
         return this.hasCustomName() ? this.customName : LangUtility.getTranslation("container.meta.meta");
     }
-    public boolean hasCustomName()
-    {
+    public boolean hasCustomName() {
         return this.customName != null && !this.customName.isEmpty();
     }
     public void setCustomInventoryName(String name) {
@@ -155,25 +152,36 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
     private boolean wasActive = false;
 
     public void update() {
-        if(!getWorld().isRemote) {
+        if (!getWorld().isRemote) {
             tryConsumeMod();
 
             if (getTicksRemaining() > 0) {
-                if(currentEnergyStorage < ModConfig.META_MAX_ENERGY_STORED) {
+                if (currentEnergyStorage < ModConfig.META_MAX_ENERGY_STORED) {
                     currentRemainingTicks--;
                     currentEnergyStorage = (Math.min(currentEnergyStorage + ModConfig.META_FE_PER_TICK, ModConfig.META_MAX_ENERGY_STORED));
                 }
             }
-        }
-        if (wasActive != isActive()) {
-            LogUtility.info("Switching block state to %b", isActive());
-            getWorld().markBlockRangeForRenderUpdate(pos, pos);
-            WorldTools.notifyNeighborsOfStateChange(getWorld(), pos, ModBlocks.blockMETA);
-            getWorld().markAndNotifyBlock(pos, getWorld().getChunkFromBlockCoords(pos), getWorld().getBlockState(pos), getWorld().getBlockState(pos).withProperty(BlockMETA.PROPERTY_ACTIVE, isActive()), 3);
-        }
+            if (currentEnergyStorage > 0) { //Tesla or IC2 should handle this if enabled, so only do this without tesla
+                for (EnumFacing side : EnumFacing.values()) {
+                    TileEntity tile = world.getTileEntity(pos.offset(side));
+                    if (tile != null) {
+                        IEnergyStorage energyStorage = tile.getCapability(CapabilityEnergy.ENERGY, side.getOpposite());
+                        if (energyStorage.canReceive()) {
+                            int result = energyStorage.receiveEnergy(Math.min(this.currentEnergyStorage, ModConfig.META_OUTPUT), false);
+                            this.currentEnergyStorage -= result;
+                        }
+                    }
+                }
+            }
+            if (wasActive != isActive()) {
+                LogUtility.info("Switching block state to %b", isActive());
+                getWorld().markBlockRangeForRenderUpdate(pos, pos);
+                WorldTools.notifyNeighborsOfStateChange(getWorld(), pos, ModBlocks.blockMETA);
+                getWorld().markAndNotifyBlock(pos, getWorld().getChunkFromBlockCoords(pos), getWorld().getBlockState(pos), getWorld().getBlockState(pos).withProperty(BlockMETA.PROPERTY_ACTIVE, isActive()), 3);
+            }
 
-        wasActive = isActive();
-
+            wasActive = isActive();
+        }
     }
 
     /**
@@ -246,7 +254,7 @@ public class TileMETA extends TileEntity implements ITickable, IEnergyStorage {
         markDirty();
     }
 
-    public void dropItemsFromInventory(){
+    public void dropItemsFromInventory() {
         ItemUtility.dropItemsFromInventory(getWorld(), getPos(), inventoryItemHandler);
     }
 
