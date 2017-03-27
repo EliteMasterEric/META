@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class ItemMod extends Item {
 	//TODO add more mods
-	private static final int DESCRIPTION_COUNT = 18;
+	private static final int DESCRIPTION_COUNT = 26;
 
 	public ItemMod() {
 		this.setMaxStackSize(1);
